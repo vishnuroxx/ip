@@ -1,17 +1,20 @@
 /**
- * Represents one task in Hu9o's todo list.
+ * Represents a task in Hu9o's todo list.
  */
-public class Task {
+public abstract class Task {
     private final String description;
+    private final String taskType;
     private boolean isDone = false;
 
     /**
-     * Creates an unfinished task.
+     * Creates an unfinished task of the specified type.
      *
      * @param description the task's description
+     * @param taskType the one-letter task type shown in the task output
      */
-    public Task(String description) {
+    protected Task(String description, String taskType) {
         this.description = description;
+        this.taskType = taskType;
     }
 
     /**
@@ -28,9 +31,16 @@ public class Task {
         isDone = false;
     }
 
+    /**
+     * Provides the type-specific text shown after the task description.
+     *
+     * @return the formatted task specification, including its parentheses
+     */
+    protected abstract String specificationSuffix();
+
     @Override
     public String toString() {
         String status = isDone ? "X" : " ";
-        return "[" + status + "] " + description;
+        return "[" + taskType + "][" + status + "] " + description + specificationSuffix();
     }
 }

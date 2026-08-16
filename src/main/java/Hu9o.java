@@ -46,6 +46,18 @@ public class Hu9o {
     }
 
     /**
+     * Adds a task to the list and displays the updated task count.
+     *
+     * @param task the task created from the user's command
+     */
+    private static void addTask(Task task) {
+        tasks.add(task);
+        System.out.println("Got it. I've added this task:\n\t" + task);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+
+    }
+
+    /**
      * Identifies the requested operation and performs it on the task list.
      * The first word is treated as the operation (for example, "list" or
      * "mark"), while later words provide arguments such as a task index.
@@ -92,12 +104,75 @@ public class Hu9o {
                     System.out.println("Invalid index");
                 }
                 break;
-            default:
-                // Any command that is not a supported keyword becomes a new
-                // unfinished task, preserving the complete original input.
-                tasks.add(new Task(str));
-                System.out.println("added: " + str);
+            case "todo":
+                // A todo command has the form: todo DESCRIPTION. Everything
+                // after the first space is kept as the task description.
+                addTask(new ToDoTask(str.substring(str.indexOf(" ") + 1)));
                 break;
+
+            case "deadline":
+                try {
+                    // A deadline command has the form: deadline DESCRIPTION
+                    // /by DATE. The slash separates the description from the
+                    // deadline rule.
+                    int start_index = str.indexOf(" ") + 1;
+                    int end_index = str.indexOf("/");
+                    String description = str.substring(start_index, end_index);
+
+                    // Remove the description so the remaining text starts at
+                    // the rule keyword (which should be "by").
+                    str = str.substring(end_index + 1);
+                    String rule = str.substring(0, str.indexOf(" "));
+                    if (!rule.equals("by")) {
+                        System.out.println(rule);
+                        throw new Exception("Invalid command: use /by");
+                    }
+
+                    // The text after "by" is the deadline specification.
+                    String deadline = str.substring(str.indexOf(" ") + 1);
+                    addTask(new DeadlineTask(description, deadline));
+
+                } catch (Exception e) {
+                    System.out.println("Invalid Format for Event task. Use TASK /from TIME /to TIME");
+                }
+                break;
+            case "event":
+                try {
+                    // An event command has the form:
+                    // event DESCRIPTION /from START /to END.
+                    int start_index = str.indexOf(" ") + 1;
+                    int end_index = str.indexOf("/");
+                    String description = str.substring(start_index, end_index).trim();
+
+                    // Parse the first rule and retain the time until the next
+                    // slash, which separates the /from and /to sections.
+                    str = str.substring(end_index + 1);
+                    String rule_1 = str.substring(0, str.indexOf(" "));
+                    str = str.substring(str.indexOf(" ") + 1);
+                    String fromExpression = str.substring(0, str.indexOf("/")).trim();
+
+                    // Parse the second rule and treat the remaining text as
+                    // the event's ending time.
+                    str = str.substring(str.indexOf("/") + 1);
+                    String rule_2 = str.substring(0, str.indexOf(" "));
+                    String toExpresion = str.substring(str.indexOf(" ") + 1);
+
+                    // Both keywords must be present in the correct order.
+                    if (!(rule_1.equals("from") && rule_2.equals("to"))) {
+                        System.out.println(rule_1 + rule_2);
+                        throw new Exception("Invalid command: use /by");
+                    }
+                    addTask(new EventTask(description, fromExpression, toExpresion));
+
+                } catch (Exception e) {
+                    System.out.println("Invalid Format for Deadline task. Use TASK /by DAY");
+                }
+                break;
+            default:
+                // Commands must begin with a supported keyword such as
+                // todo, deadline, event, list, mark, or unmark.
+                System.out.println("Unknown command");
+
         }
         System.out.println("_________________________________\n");
 

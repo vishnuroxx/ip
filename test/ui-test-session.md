@@ -41,7 +41,7 @@ Exit code: `0`
 
 ## 2. task-lifecycle - PASS
 
-Aim: Verify adding todo, deadline, and event tasks; listing tasks; marking and unmarking a task; and handling an unknown command.
+Aim: Verify adding todo, deadline, and event tasks; listing tasks; marking and unmarking a task; deleting a task; and handling an unknown command.
 
 ### Command
 
@@ -58,6 +58,7 @@ event project meeting /from 2pm /to 4pm
 list
 mark 2
 unmark 2
+delete 2
 list
 unknown
 bye
@@ -119,14 +120,19 @@ _________________________________
 
 > _________________________________
 
-1. [T][ ] read book
-2. [D][ ] submit assignment (by: Friday)
-3. [E][ ] project meeting (from: 2pm to: 4pm)
+Got it. Deleted the following task:
+	[D][ ] submit assignment (by: Friday)
 _________________________________
 
 > _________________________________
 
-Unknown command
+1. [T][ ] read book
+2. [E][ ] project meeting (from: 2pm to: 4pm)
+_________________________________
+
+> _________________________________
+
+Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
 _________________________________
 
 > _________________________________
@@ -154,6 +160,7 @@ javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && java 
 todo
 mark 0
 unmark 2
+delete 0
 deadline report /at Friday
 event study /from 2pm /until 4pm
 unknown
@@ -181,12 +188,17 @@ _________________________________
 
 > _________________________________
 
-Invalid mark index
+Invalid index. Check the list of items using "list"
 _________________________________
 
 > _________________________________
 
-Invalid unmark index
+Invalid index. Check the list of items using "list"
+_________________________________
+
+> _________________________________
+
+Invalid index for deleting. Check the list of items using "list"
 _________________________________
 
 > _________________________________
@@ -201,7 +213,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command
+Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
 _________________________________
 
 > _________________________________

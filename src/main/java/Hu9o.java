@@ -1,10 +1,22 @@
-import java.util.Scanner;
+import errors.InvalidCommandException;
+import errors.InvalidDeadlineFormatException;
+import errors.InvalidEventFormatException;
+import errors.InvalidMarkIndexException;
+import errors.InvalidTodoFormatException;
+import errors.InvalidUnmarkIndexException;
+
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple command-line chatbot that manages a list of tasks.
  */
 public class Hu9o {
+    private static final Pattern TODO_PATTERN = Pattern.compile("^todo\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern DEADLINE_PATTERN = Pattern.compile("^deadline\\s+(.+?)\\s+/by\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EVENT_PATTERN = Pattern.compile("^event\\s+(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+)$", Pattern.CASE_INSENSITIVE);
 
     /** Stores all tasks entered during the current program run. */
     public static ArrayList<Task> tasks = new ArrayList<>();
@@ -15,28 +27,19 @@ public class Hu9o {
                 + "| |_| | | | | || (_) | / _ \\ \n"
                 + "|  _  | | |_| | \\__,| | (_) |\n"
                 + "|_| |_|  \\___/   /_/   \\___/ \n";
-
-        // ChatBot Conversation
         System.out.println("_________________________________");
         System.out.print(banner);
         System.out.println("_________________________________\n");
-
         System.out.println("Woof! I'm Hu9o!");
         System.out.println("What can I do for you?\n");
 
         try (Scanner scanner = new Scanner(System.in)) {
             for (;;) {
-                // Wait for one complete command from the user.
                 System.out.print("> ");
                 String command = scanner.nextLine();
-
-                // "bye" is handled by the input loop so the chatbot can exit
-                // without treating it as a task.
                 if (command.equalsIgnoreCase("bye")) {
                     break;
                 }
-
-                // Pass every other command to the query dispatcher below.
                 answerHandler(command);
             }
         }
@@ -45,136 +48,95 @@ public class Hu9o {
         System.out.println("_________________________________\n");
     }
 
-    /**
-     * Adds a task to the list and displays the updated task count.
-     *
-     * @param task the task created from the user's command
-     */
+    /** Adds a task and displays the updated task count. */
     private static void addTask(Task task) {
         tasks.add(task);
         System.out.println("Got it. I've added this task:\n\t" + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-
     }
 
     /**
      * Identifies the requested operation and performs it on the task list.
-     * The first word is treated as the operation (for example, "list" or
-     * "mark"), while later words provide arguments such as a task index.
+     * Each command validates its own input by throwing a specific Hu9oException;
+     * all user-facing error messages are handled by the catch blocks below.
      *
      * @param str the complete command entered by the user
      */
     private static void answerHandler(String str) {
-        // Split the input so that commands such as "mark 2" can be handled
-        // separately from their arguments.
         String[] parts = str.trim().split("\\s+");
         String command = parts[0];
         System.out.println("_________________________________\n");
 
-        // Dispatch the query based on its first word.
-        switch (command.toLowerCase()) {
+        try {
+            switch (command.toLowerCase()) {
             case "list":
-                // Display every task using its one-based position for users.
                 int index = 1;
                 for (Task task : tasks) {
-                    System.out.println(index + "." + " " + task);
+                    System.out.println(index + ". " + task);
                     index++;
                 }
                 break;
             case "mark":
-                // Convert the user-facing task number to an ArrayList index
-                // and mark that task as completed.
-                try {
-                    Task task = tasks.get(Integer.parseInt(parts[1]) - 1);
-                    task.mark();
-                    System.out.println("Nice! I've marked this task as done:\n\t" + task);
-
-                } catch (Exception e) {
-                    System.out.println("Invalid Index");
-                }
+                Task taskToMark = getTask(parts, true);
+                taskToMark.mark();
+                System.out.println("Nice! I've marked this task as done:\n\t" + taskToMark);
                 break;
             case "unmark":
-                // Convert the task number and mark that task as incomplete.
-                try {
-                    Task task = tasks.get(Integer.parseInt(parts[1]) - 1);
-                    task.unmark();
-                    System.out.println("Ok, I've marked this task as not done yet:\n\t" + task);
-
-                } catch (Exception e) {
-                    System.out.println("Invalid index");
-                }
+                Task taskToUnmark = getTask(parts, false);
+                taskToUnmark.unmark();
+                System.out.println("Ok, I've marked this task as not done yet:\n\t" + taskToUnmark);
                 break;
             case "todo":
-                // A todo command has the form: todo DESCRIPTION. Everything
-                // after the first space is kept as the task description.
-                addTask(new ToDoTask(str.substring(str.indexOf(" ") + 1)));
-                break;
-
-            case "deadline":
-                try {
-                    // A deadline command has the form: deadline DESCRIPTION
-                    // /by DATE. The slash separates the description from the
-                    // deadline rule.
-                    int start_index = str.indexOf(" ") + 1;
-                    int end_index = str.indexOf("/");
-                    String description = str.substring(start_index, end_index);
-
-                    // Remove the description so the remaining text starts at
-                    // the rule keyword (which should be "by").
-                    str = str.substring(end_index + 1);
-                    String rule = str.substring(0, str.indexOf(" "));
-                    if (!rule.equals("by")) {
-                        System.out.println(rule);
-                        throw new Exception("Invalid command: use /by");
-                    }
-
-                    // The text after "by" is the deadline specification.
-                    String deadline = str.substring(str.indexOf(" ") + 1);
-                    addTask(new DeadlineTask(description, deadline));
-
-                } catch (Exception e) {
-                    System.out.println("Invalid Format for Event task. Use TASK /from TIME /to TIME");
+                Matcher todoMatcher = TODO_PATTERN.matcher(str);
+                if (!todoMatcher.matches()) {
+                    throw new InvalidTodoFormatException();
                 }
+                addTask(new ToDoTask(todoMatcher.group(1)));
+                break;
+            case "deadline":
+                Matcher deadlineMatcher = DEADLINE_PATTERN.matcher(str);
+                if (!deadlineMatcher.matches()) {
+                    throw new InvalidDeadlineFormatException();
+                }
+                addTask(new DeadlineTask(deadlineMatcher.group(1), deadlineMatcher.group(2)));
                 break;
             case "event":
-                try {
-                    // An event command has the form:
-                    // event DESCRIPTION /from START /to END.
-                    int start_index = str.indexOf(" ") + 1;
-                    int end_index = str.indexOf("/");
-                    String description = str.substring(start_index, end_index).trim();
-
-                    // Parse the first rule and retain the time until the next
-                    // slash, which separates the /from and /to sections.
-                    str = str.substring(end_index + 1);
-                    String rule_1 = str.substring(0, str.indexOf(" "));
-                    str = str.substring(str.indexOf(" ") + 1);
-                    String fromExpression = str.substring(0, str.indexOf("/")).trim();
-
-                    // Parse the second rule and treat the remaining text as
-                    // the event's ending time.
-                    str = str.substring(str.indexOf("/") + 1);
-                    String rule_2 = str.substring(0, str.indexOf(" "));
-                    String toExpresion = str.substring(str.indexOf(" ") + 1);
-
-                    // Both keywords must be present in the correct order.
-                    if (!(rule_1.equals("from") && rule_2.equals("to"))) {
-                        System.out.println(rule_1 + rule_2);
-                        throw new Exception("Invalid command: use /by");
-                    }
-                    addTask(new EventTask(description, fromExpression, toExpresion));
-
-                } catch (Exception e) {
-                    System.out.println("Invalid Format for Deadline task. Use TASK /by DAY");
+                Matcher eventMatcher = EVENT_PATTERN.matcher(str);
+                if (!eventMatcher.matches()) {
+                    throw new InvalidEventFormatException();
                 }
+                addTask(new EventTask(eventMatcher.group(1), eventMatcher.group(2), eventMatcher.group(3)));
                 break;
             default:
-                // Commands must begin with a supported keyword such as
-                // todo, deadline, event, list, mark, or unmark.
-                System.out.println("Unknown command");
-
+                throw new InvalidCommandException();
+            }
+        } catch (InvalidMarkIndexException error) {
+            System.out.println(error.getMessage());
+        } catch (InvalidUnmarkIndexException error) {
+            System.out.println(error.getMessage());
+        } catch (InvalidTodoFormatException error) {
+            System.out.println(error.getMessage());
+        } catch (InvalidDeadlineFormatException error) {
+            System.out.println(error.getMessage());
+        } catch (InvalidEventFormatException error) {
+            System.out.println(error.getMessage());
+        } catch (InvalidCommandException error) {
+            System.out.println(error.getMessage());
         }
         System.out.println("_________________________________\n");
+    }
 
+    /** Gets a valid task for either the mark or unmark command. */
+    private static Task getTask(String[] parts, boolean isMarkCommand)
+            throws InvalidMarkIndexException, InvalidUnmarkIndexException {
+        boolean isInvalid = parts.length != 2 || !parts[1].matches("[1-9][0-9]{0,8}");
+        int taskNumber = isInvalid ? 0 : Integer.parseInt(parts[1]);
+        if (isInvalid || taskNumber > tasks.size()) {
+            if (isMarkCommand) {
+                throw new InvalidMarkIndexException();
+            }
+            throw new InvalidUnmarkIndexException();
+        }
+        return tasks.get(taskNumber - 1);
     }
 }

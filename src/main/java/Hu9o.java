@@ -10,13 +10,24 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.io.IOException;
+import java.util.stream.Stream;
+
 /**
  * A simple command-line chatbot that manages a list of tasks.
  */
 public class Hu9o {
+    /** Location of the task file, relative to the directory where Hu9o is run. */
+    private static final Path TASK_DATA_PATH = Path.of("./data/taskData.txt");
+
+    /** Matches a todo command and captures its description. */
     private static final Pattern TODO_PATTERN = Pattern.compile("^todo\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+    /** Matches a deadline command and captures its description and deadline. */
     private static final Pattern DEADLINE_PATTERN = Pattern.compile("^deadline\\s+(.+?)\\s+/by\\s+(.+)$",
             Pattern.CASE_INSENSITIVE);
+    /** Matches an event command and captures its description, start, and end times. */
     private static final Pattern EVENT_PATTERN = Pattern.compile("^event\\s+(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+)$",
             Pattern.CASE_INSENSITIVE);
 
@@ -28,31 +39,120 @@ public class Hu9o {
         TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE;
     }
 
-    public static void main(String[] args) {
-        String banner = " _   _           ___ \n"
-                + "| | | | | | | | / _ \\   ___  \n"
-                + "| |_| | | | | || (_) | / _ \\ \n"
-                + "|  _  | | |_| | \\__,| | (_) |\n"
-                + "|_| |_|  \\___/   /_/   \\___/ \n";
-        System.out.println("_________________________________");
-        System.out.print(banner);
-        System.out.println("_________________________________\n");
-        System.out.println("Woof! I'm Hu9o!");
-        System.out.println("What can I do for you?\n");
-
-        try (Scanner scanner = new Scanner(System.in)) {
-            for (;;) {
-                System.out.print("> ");
-                String command = scanner.nextLine();
-                if (command.equalsIgnoreCase("bye")) {
-                    break;
-                }
-                answerHandler(command);
-            }
+    /**
+     * Recreates and stores one task from its pipe-delimited persistence record.
+     *
+     * @param str the compressed task record read from the task data file
+     */
+    private static void parseTask(String str) {
+        /* T|Cross|description */
+        String[] parts = str.split("\\|");
+        String command = parts[0];
+        Task task = null;
+        switch (command) {
+            case "T":
+                task = new ToDoTask(parts[2]);
+                break;
+            case "D":
+                task = new DeadlineTask(parts[2], parts[3]);
+                break;
+            case "E":
+                task = new EventTask(parts[2], parts[3], parts[4]);
+                break;
+            default:
+                break;
         }
-        System.out.println("_________________________________");
-        System.out.println("\nBye. Hope to see you again soon! (wags tail)");
-        System.out.println("_________________________________\n");
+        if (task == null)
+            return;
+
+        if (parts[1].equals("X"))
+            task.mark();
+
+        tasks.add(task);
+
+    }
+
+    /**
+     * Loads all saved task records into the current task list.
+     * The file stores one pipe-delimited task record per line.
+     *
+     * @return the loaded task list
+     */
+    private static ArrayList<Task> loadTasks() {
+        try {
+            Stream<String> lines = Files.lines(TASK_DATA_PATH);
+            lines.forEach(x -> parseTask(x));
+            lines.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Saves every task in the supplied list as a pipe-delimited record.
+     * Each record is written on its own line so it can be loaded on the next run.
+     *
+     * @param tasks the tasks to persist
+     */
+    private static void dumpTasks(ArrayList<Task> tasks) {
+        String result = "";
+        for (Task task : tasks) {
+            result += task.compressionString() + "\n";
+        }
+
+        try {
+            Files.writeString(TASK_DATA_PATH, result);
+            System.out.println("\n Saving data...");
+            Thread.sleep(500);
+            System.out.println(" Successfully saved data");
+            Thread.sleep(200);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        try {
+            String banner = " _   _           ___ \n"
+                    + "| | | | | | | | / _ \\   ___  \n"
+                    + "| |_| | | | | || (_) | / _ \\ \n"
+                    + "|  _  | | |_| | \\__,| | (_) |\n"
+                    + "|_| |_|  \\___/   /_/   \\___/ \n";
+            System.out.println("_________________________________");
+            System.out.print(banner);
+            System.out.println("_________________________________\n");
+            System.out.println("Give me a second....Loading tasks...");
+            Thread.sleep(1000);
+            loadTasks();
+            System.out.println("Successful! Use list to view the tasks.");
+            Thread.sleep(500);
+            System.out.println("Woof! I'm Hu9o!");
+            Thread.sleep(500);
+            System.out.println("What can I do for you?\n");
+
+            try (Scanner scanner = new Scanner(System.in)) {
+                for (;;) {
+                    System.out.print("> ");
+                    String command = scanner.nextLine();
+                    if (command.equalsIgnoreCase("bye")) {
+                        dumpTasks(tasks);
+                        break;
+                    }
+                    answerHandler(command);
+                }
+            }
+            System.out.println("_________________________________");
+            System.out.println("\nBye. Hope to see you again soon! (wags tail)");
+            System.out.println("_________________________________\n");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /** Adds a task and displays the updated task count. */

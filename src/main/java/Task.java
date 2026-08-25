@@ -10,11 +10,23 @@ public abstract class Task {
      * Creates an unfinished task of the specified type.
      *
      * @param description the task's description
-     * @param taskType the one-letter task type shown in the task output
+     * @param taskType    the one-letter task type shown in the task output
      */
     protected Task(String description, String taskType) {
         this.description = description;
         this.taskType = taskType;
+    }
+
+    public String getTaskType() {
+        return this.taskType;
+    }
+
+    public String getTaskDescription() {
+        return this.description;
+    }
+
+    public String isMarked() {
+        return isDone ? "X" : " ";
     }
 
     /**
@@ -37,6 +49,10 @@ public abstract class Task {
      * @return the formatted task specification, including its parentheses
      */
     protected abstract String specificationSuffix();
+
+    public String compressionString() {
+        return taskType + "|" + isMarked() + "|" + description + "|";
+    }
 
     @Override
     public String toString() {

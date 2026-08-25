@@ -7,12 +7,17 @@ public class DeadlineTask extends Task {
     /**
      * Creates an unfinished deadline task.
      *
-     * @param description the task's description
+     * @param description   the task's description
      * @param specification the deadline, such as "Sunday"
      */
     public DeadlineTask(String description, String specification) {
         super(description, "D");
         this.specification = specification;
+    }
+
+    @Override
+    public String compressionString() {
+        return super.compressionString()+ specification + "|";
     }
 
     @Override

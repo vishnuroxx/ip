@@ -18,6 +18,11 @@ public class EventTask extends Task {
     }
 
     @Override
+    public String compressionString() {
+        return super.compressionString() + fromSpecification + "|" + toSpecification + "|";
+    }
+
+    @Override
     protected String specificationSuffix() {
         return " (from: " + this.fromSpecification + " to: " + this.toSpecification + ")";
     }

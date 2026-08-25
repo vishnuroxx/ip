@@ -1,9 +1,12 @@
+import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that takes place during a specified time.
  */
 public class EventTask extends Task {
-    private final String fromSpecification;
-    private final String toSpecification;
+    private final LocalDateTime fromSpecification;
+    private final LocalDateTime toSpecification;
 
     /**
      * Creates an unfinished event task.
@@ -11,19 +14,23 @@ public class EventTask extends Task {
      * @param description   the event's description
      * @param specification the event time, such as "Aug 6th 2pm to: 4pm"
      */
-    public EventTask(String description, String fromSpecification, String toSpecification) {
+    public EventTask(String description, String fromSpecification, String toSpecification)
+            throws DateTimeParseException {
         super(description, "E");
-        this.fromSpecification = fromSpecification;
-        this.toSpecification = toSpecification;
+        this.fromSpecification = DateTime.parseString(fromSpecification);
+        this.toSpecification = DateTime.parseString(toSpecification);
     }
 
     @Override
     public String compressionString() {
-        return super.compressionString() + fromSpecification + "|" + toSpecification + "|";
+        return super.compressionString() + DateTime.dateToString(fromSpecification) + "|"
+                + DateTime.dateToString(toSpecification) + "|";
     }
 
     @Override
     protected String specificationSuffix() {
-        return " (from: " + this.fromSpecification + " to: " + this.toSpecification + ")";
+        return " (from: " + DateTime.dateToDisplay(fromSpecification) + " to: "
+                + DateTime.dateToDisplay(toSpecification)
+                + ")";
     }
 }

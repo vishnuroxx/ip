@@ -1,3 +1,0 @@
-T| |walk|
-D| |finish tasks|today|
-T|X|sleep|

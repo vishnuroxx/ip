@@ -5,6 +5,7 @@ import errors.InvalidMarkIndexException;
 import errors.InvalidTodoFormatException;
 import errors.InvalidUnmarkIndexException;
 import errors.InvalidDeleteIndexException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -27,7 +28,9 @@ public class Hu9o {
     /** Matches a deadline command and captures its description and deadline. */
     private static final Pattern DEADLINE_PATTERN = Pattern.compile("^deadline\\s+(.+?)\\s+/by\\s+(.+)$",
             Pattern.CASE_INSENSITIVE);
-    /** Matches an event command and captures its description, start, and end times. */
+    /**
+     * Matches an event command and captures its description, start, and end times.
+     */
     private static final Pattern EVENT_PATTERN = Pattern.compile("^event\\s+(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+)$",
             Pattern.CASE_INSENSITIVE);
 
@@ -239,6 +242,8 @@ public class Hu9o {
             System.out.println(error.getMessage());
         } catch (InvalidDeleteIndexException error) {
             System.out.println(error.getMessage());
+        } catch (DateTimeParseException error) {
+            System.out.println("Invalid Date...Use day/month/yaer 12 hr time\n\ti.e 12/8/26 330 pm");
         }
         System.out.println("_________________________________\n");
     }

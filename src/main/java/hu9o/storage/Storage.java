@@ -13,15 +13,13 @@ import hu9o.ui.Ui;
 /**
  * Reads and writes the task list on disk.
  *
- * <p>
- * {@code Storage} knows where the save file lives and how each task is
+ * <p>{@code Storage} knows where the save file lives and how each task is
  * serialized line by line, but it delegates the actual text-to-task conversion
  * to {@link Parser} and all progress messages to {@link Ui}.
  */
 public class Storage {
     /** Location of the task file, relative to the directory where Hu9o is run. */
-    private static final Path TASK_DATA_PATH = Path
-            .of(Path.of("").toAbsolutePath() + "/src/main/java/hu9o/storage/data/taskData.txt");
+    private static final Path TASK_DATA_PATH = Path.of("data", "taskData.txt");
 
     private final Parser parser;
     private final Ui ui;
@@ -29,8 +27,8 @@ public class Storage {
     /**
      * Creates a storage helper.
      *
-     * @param parser used to rebuild a task from each saved record
-     * @param ui     used to show saving progress
+     * @param parser used to rebuild a task from each saved record.
+     * @param ui     used to show saving progress.
      */
     public Storage(Parser parser, Ui ui) {
         this.parser = parser;
@@ -41,9 +39,12 @@ public class Storage {
      * Loads every saved task record into the given task list.
      * The file stores one pipe-delimited task record per line.
      *
-     * @param tasks the list to populate
+     * @param tasks the list to populate.
      */
     public void loadTasks(TaskList tasks) {
+        if (Files.notExists(TASK_DATA_PATH)) {
+            return; // no save file yet (e.g. first run) -- start with an empty list
+        }
         try (Stream<String> lines = Files.lines(TASK_DATA_PATH)) {
             lines.forEach(line -> {
                 Task task = parser.parseTask(line);
@@ -51,9 +52,8 @@ public class Storage {
                     tasks.addTask(task);
                 }
             });
-        } catch (IOException e) {
-            System.out.println(TASK_DATA_PATH);
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -61,7 +61,7 @@ public class Storage {
      * Saves every task as a pipe-delimited record, one per line, so it can be
      * loaded on the next run.
      *
-     * @param tasks the tasks to persist
+     * @param tasks the tasks to persist.
      */
     public void dumpTasks(TaskList tasks) {
         StringBuilder result = new StringBuilder();
@@ -70,10 +70,11 @@ public class Storage {
         }
 
         try {
+            Files.createDirectories(TASK_DATA_PATH.getParent()); // make ./data/ if it is absent
             Files.writeString(TASK_DATA_PATH, result.toString());
             ui.showSaving();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 }

@@ -9,7 +9,7 @@ import hu9o.task.TaskList;
  * <p>Keeping all output in one class means the logic classes
  * ({@link hu9o.parser.Parser}, {@link hu9o.storage.Storage}, {@link TaskList})
  * never touch {@code System.out} directly, so the exact wording, spacing, and
- * conversational pauses live in a single place. {@code UI} handles output;
+ * conversational pauses live in a single place. {@code Ui} handles output;
  * {@link hu9o.parser.Parser} handles input.
  */
 public class Ui {
@@ -28,12 +28,12 @@ public class Ui {
      * The interrupt flag is restored rather than crashing the program, since a
      * missed pause is harmless.
      *
-     * @param millis how long to pause, in milliseconds
+     * @param millis how long to pause, in milliseconds.
      */
     private void pause(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
         }
     }
@@ -89,7 +89,7 @@ public class Ui {
     /**
      * Prints the whole task list, one numbered task per line.
      *
-     * @param tasks the tasks to display
+     * @param tasks the tasks to display.
      */
     public void showTaskList(TaskList tasks) {
         int index = 1;
@@ -102,8 +102,8 @@ public class Ui {
     /**
      * Confirms that a task was added and reports the new task count.
      *
-     * @param task      the task that was added
-     * @param taskCount the number of tasks now in the list
+     * @param task      the task that was added.
+     * @param taskCount the number of tasks now in the list.
      */
     public void showTaskAdded(Task task, int taskCount) {
         System.out.println("Got it. I've added this task:\n\t" + task);
@@ -113,7 +113,7 @@ public class Ui {
     /**
      * Confirms that a task was marked as done.
      *
-     * @param task the task that was marked
+     * @param task the task that was marked.
      */
     public void showTaskMarked(Task task) {
         System.out.println("Nice! I've marked this task as done:\n\t" + task);
@@ -122,7 +122,7 @@ public class Ui {
     /**
      * Confirms that a task was marked as not done.
      *
-     * @param task the task that was unmarked
+     * @param task the task that was unmarked.
      */
     public void showTaskUnmarked(Task task) {
         System.out.println("Ok, I've marked this task as not done yet:\n\t" + task);
@@ -131,7 +131,7 @@ public class Ui {
     /**
      * Confirms that a task was deleted.
      *
-     * @param task the task that was removed
+     * @param task the task that was removed.
      */
     public void showTaskDeleted(Task task) {
         System.out.println("Got it. Deleted the following task:\n\t" + task);
@@ -140,7 +140,7 @@ public class Ui {
     /**
      * Prints a recoverable error message from a {@code Hu9oException}.
      *
-     * @param message the user-facing explanation of what went wrong
+     * @param message the user-facing explanation of what went wrong.
      */
     public void showError(String message) {
         System.out.println(message);

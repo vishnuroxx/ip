@@ -12,7 +12,7 @@ import hu9o.task.TaskList;
  * conversational pauses live in a single place. {@code UI} handles output;
  * {@link hu9o.parser.Parser} handles input.
  */
-public class UI {
+public class Ui {
     /** Horizontal rule printed around each block of output. */
     private static final String SEPARATOR = "_________________________________";
 

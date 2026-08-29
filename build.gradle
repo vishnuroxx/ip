@@ -32,6 +32,10 @@ application {
     mainClass = 'hu9o.Hu9o'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 run {
     standardInput = System.in
 }

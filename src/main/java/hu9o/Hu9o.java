@@ -5,7 +5,7 @@ import java.util.Scanner;
 import hu9o.parser.Parser;
 import hu9o.storage.Storage;
 import hu9o.task.TaskList;
-import hu9o.ui.UI;
+import hu9o.ui.Ui;
 
 /**
  * Entry point for the Hu9o command-line chatbot.
@@ -13,21 +13,21 @@ import hu9o.ui.UI;
  * <p>Hu9o wires together four collaborators and runs the read-evaluate-print
  * loop, but delegates every real responsibility:
  * <ul>
- *   <li>{@link UI} &ndash; all console output</li>
+ *   <li>{@link Ui} &ndash; all console output</li>
  *   <li>{@link Storage} &ndash; loading and saving tasks on disk</li>
  *   <li>{@link TaskList} &ndash; the in-memory list of tasks</li>
  *   <li>{@link Parser} &ndash; turning user and file text into actions</li>
  * </ul>
  */
 public class Hu9o {
-    private final UI ui;
+    private final Ui ui;
     private final TaskList tasks;
     private final Parser parser;
     private final Storage storage;
 
     /** Creates the collaborators and connects them to one another. */
     public Hu9o() {
-        this.ui = new UI();
+        this.ui = new Ui();
         this.tasks = new TaskList();
         this.parser = new Parser(tasks, ui);
         this.storage = new Storage(parser, ui);

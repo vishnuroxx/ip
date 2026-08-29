@@ -11,7 +11,7 @@ Verify that the application starts and exits politely when the user enters `bye`
 
 Command:
 ```shell
-javac -d build/classes src/main/java/Hu9o.java src/main/java/Task.java src/main/java/ToDoTask.java src/main/java/DeadlineTask.java src/main/java/EventTask.java src/main/java/DateTime.java src/main/java/errors/*.java && mkdir -p build/ui-tests/exit-greeting/data && : > build/ui-tests/exit-greeting/data/taskData.txt && (cd build/ui-tests/exit-greeting && java -cp ../../classes Hu9o)
+javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && mkdir -p build/ui-tests/exit-greeting/data && : > build/ui-tests/exit-greeting/data/taskData.txt && (cd build/ui-tests/exit-greeting && java -cp ../../classes Hu9o)
 ```
 
 Input:
@@ -53,7 +53,7 @@ Verify that Hu9o loads saved todo, deadline, and event tasks, including their co
 
 Command:
 ```shell
-javac -d build/classes src/main/java/Hu9o.java src/main/java/Task.java src/main/java/ToDoTask.java src/main/java/DeadlineTask.java src/main/java/EventTask.java src/main/java/DateTime.java src/main/java/errors/*.java && mkdir -p build/ui-tests/load-saved-tasks/data && printf 'T| |read book|\nD|X|submit assignment|12/08/26 3 PM|\nE| |project meeting|12/08/26 2 PM|12/08/26 4 PM|\n' > build/ui-tests/load-saved-tasks/data/taskData.txt && (cd build/ui-tests/load-saved-tasks && java -cp ../../classes Hu9o)
+javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && mkdir -p build/ui-tests/load-saved-tasks/data && printf 'T| |read book|\nD|X|submit assignment|12/08/26 3 PM|\nE| |project meeting|12/08/26 2 PM|12/08/26 4 PM|\n' > build/ui-tests/load-saved-tasks/data/taskData.txt && (cd build/ui-tests/load-saved-tasks && java -cp ../../classes Hu9o)
 ```
 
 Input:
@@ -103,7 +103,7 @@ Verify that tasks created during a session are written to the data file when Hu9
 
 Command:
 ```shell
-javac -d build/classes src/main/java/Hu9o.java src/main/java/Task.java src/main/java/ToDoTask.java src/main/java/DeadlineTask.java src/main/java/EventTask.java src/main/java/DateTime.java src/main/java/errors/*.java && mkdir -p build/ui-tests/dump-tasks-on-exit/data && : > build/ui-tests/dump-tasks-on-exit/data/taskData.txt && ((cd build/ui-tests/dump-tasks-on-exit && java -cp ../../classes Hu9o) && cat build/ui-tests/dump-tasks-on-exit/data/taskData.txt)
+javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && mkdir -p build/ui-tests/dump-tasks-on-exit/data && : > build/ui-tests/dump-tasks-on-exit/data/taskData.txt && ((cd build/ui-tests/dump-tasks-on-exit && java -cp ../../classes Hu9o) && cat build/ui-tests/dump-tasks-on-exit/data/taskData.txt)
 ```
 
 Input:
@@ -178,7 +178,7 @@ Verify adding todo, deadline, and event tasks; listing tasks; marking and unmark
 
 Command:
 ```shell
-javac -d build/classes src/main/java/Hu9o.java src/main/java/Task.java src/main/java/ToDoTask.java src/main/java/DeadlineTask.java src/main/java/EventTask.java src/main/java/DateTime.java src/main/java/errors/*.java && mkdir -p build/ui-tests/task-lifecycle/data && : > build/ui-tests/task-lifecycle/data/taskData.txt && (cd build/ui-tests/task-lifecycle && java -cp ../../classes Hu9o)
+javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && mkdir -p build/ui-tests/task-lifecycle/data && : > build/ui-tests/task-lifecycle/data/taskData.txt && (cd build/ui-tests/task-lifecycle && java -cp ../../classes Hu9o)
 ```
 
 Input:
@@ -285,7 +285,7 @@ Verify that each invalid command form is handled by its specific Hu9oException w
 
 Command:
 ```shell
-javac -d build/classes src/main/java/Hu9o.java src/main/java/Task.java src/main/java/ToDoTask.java src/main/java/DeadlineTask.java src/main/java/EventTask.java src/main/java/DateTime.java src/main/java/errors/*.java && mkdir -p build/ui-tests/command-errors/data && : > build/ui-tests/command-errors/data/taskData.txt && (cd build/ui-tests/command-errors && java -cp ../../classes Hu9o)
+javac -d build/classes src/main/java/*.java src/main/java/errors/*.java && mkdir -p build/ui-tests/command-errors/data && : > build/ui-tests/command-errors/data/taskData.txt && (cd build/ui-tests/command-errors && java -cp ../../classes Hu9o)
 ```
 
 Input:

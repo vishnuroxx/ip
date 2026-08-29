@@ -13,13 +13,15 @@ import hu9o.ui.UI;
 /**
  * Reads and writes the task list on disk.
  *
- * <p>{@code Storage} knows where the save file lives and how each task is
+ * <p>
+ * {@code Storage} knows where the save file lives and how each task is
  * serialized line by line, but it delegates the actual text-to-task conversion
  * to {@link Parser} and all progress messages to {@link UI}.
  */
 public class Storage {
     /** Location of the task file, relative to the directory where Hu9o is run. */
-    private static final Path TASK_DATA_PATH = Path.of("./data/taskData.txt");
+    private static final Path TASK_DATA_PATH = Path
+            .of(Path.of("").toAbsolutePath() + "/src/main/java/hu9o/storage/data/taskData.txt");
 
     private final Parser parser;
     private final UI ui;
@@ -50,6 +52,7 @@ public class Storage {
                 }
             });
         } catch (IOException e) {
+            System.out.println(TASK_DATA_PATH);
             e.printStackTrace();
         }
     }

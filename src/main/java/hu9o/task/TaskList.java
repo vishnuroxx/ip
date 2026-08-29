@@ -44,6 +44,24 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
+     * Returns the tasks whose description contains the given keyword, matched
+     * case-insensitively, in their current list order.
+     *
+     * @param keyword the text to search for.
+     * @return the matching tasks; empty if none match.
+     */
+    public TaskList findTasks(String keyword) {
+        String lowerKeyword = keyword.toLowerCase();
+        TaskList matches = new TaskList();
+        for (Task task : this) {
+            if (task.getTaskDescription().toLowerCase().contains(lowerKeyword)) {
+                matches.addTask(task);
+            }
+        }
+        return matches;
+    }
+
+    /**
      * Returns the task at the given one-based position for a mark or unmark command.
      *
      * @param oneBasedIndex  the task number shown to the user (1 = first task);

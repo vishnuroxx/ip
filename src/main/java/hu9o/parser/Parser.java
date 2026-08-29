@@ -8,6 +8,7 @@ import hu9o.errors.Hu9oException;
 import hu9o.errors.InvalidCommandException;
 import hu9o.errors.InvalidDeadlineFormatException;
 import hu9o.errors.InvalidEventFormatException;
+import hu9o.errors.InvalidFindFormatException;
 import hu9o.errors.InvalidTodoFormatException;
 import hu9o.task.DeadlineTask;
 import hu9o.task.EventTask;
@@ -34,10 +35,13 @@ public class Parser {
     /** Matches an event command and captures its description, start, and end times. */
     private static final Pattern EVENT_PATTERN =
             Pattern.compile("^event\\s+(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+    /** Matches a find command and captures its search keyword. */
+    private static final Pattern FIND_PATTERN =
+            Pattern.compile("^find\\s+(.+)$", Pattern.CASE_INSENSITIVE);
 
     /** Every command name Hu9o understands. */
     private enum CommandType {
-        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE
+        TODO, DEADLINE, EVENT, LIST, FIND, MARK, UNMARK, DELETE, BYE
     }
 
     private final TaskList tasks;
@@ -98,6 +102,14 @@ public class Parser {
                 case LIST:
                     ui.showTaskList(tasks);
                     break;
+                case FIND: {
+                    Matcher matcher = FIND_PATTERN.matcher(command);
+                    if (!matcher.matches()) {
+                        throw new InvalidFindFormatException();
+                    }
+                    ui.showMatchingTasks(tasks.findTasks(matcher.group(1)));
+                    break;
+                }
                 case MARK: {
                     Task task = tasks.getTask(parseIndex(parts), true);
                     task.mark();

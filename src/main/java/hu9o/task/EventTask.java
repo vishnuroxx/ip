@@ -1,3 +1,5 @@
+package hu9o.task;
+
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
 

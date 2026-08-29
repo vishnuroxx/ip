@@ -1,3 +1,5 @@
+package hu9o.task;
+
 /**
  * Represents a regular todo task.
  */

@@ -1,4 +1,11 @@
+package hu9o;
+
 import java.util.Scanner;
+
+import hu9o.parser.Parser;
+import hu9o.storage.Storage;
+import hu9o.task.TaskList;
+import hu9o.ui.UI;
 
 /**
  * Entry point for the Hu9o command-line chatbot.

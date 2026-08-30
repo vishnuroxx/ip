@@ -24,6 +24,20 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Coding standard
+
+All Java code in this repository (both `src/main` and `src/test`) MUST follow the
+se-education.org intermediate Java coding convention
+(<https://se-education.org/guides/conventions/java/intermediate.html>), captured
+in the `seedu-java-coding-standard` skill (`.claude/skills/` and `.codex/skills/`).
+
+Consult that skill before writing, editing, or reviewing any `.java` file, and
+treat its checklist as blocking: naming (methods are verbs, constants are
+`UPPER_SNAKE_CASE`, booleans read as predicates), layout (4-space indent, K&R
+braces, always-braced bodies, indented `switch` cases, 120-column limit),
+imports (explicit and grouped), and header Javadoc on every public class and
+method with punctuated `@param`/`@return`/`@throws` descriptions.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.

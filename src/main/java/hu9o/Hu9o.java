@@ -40,20 +40,25 @@ public class Hu9o {
         ui.showReady();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            for (;;) {
+            while (true) {
                 ui.displayQuery();
                 String command = scanner.nextLine();
                 if (command.equalsIgnoreCase("bye")) {
                     storage.dumpTasks(tasks);
                     break;
                 }
-                parser.answerHandler(command);
+                parser.handleCommand(command);
             }
         }
 
         ui.showFarewell();
     }
 
+    /**
+     * Launches Hu9o.
+     *
+     * @param args command-line arguments (unused).
+     */
     public static void main(String[] args) {
         new Hu9o().run();
     }

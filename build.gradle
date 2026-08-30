@@ -9,6 +9,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.gradleup.shadow' version '9.0.0'
 }
 
 repositories {
@@ -32,8 +33,23 @@ application {
     mainClass = 'hu9o.Hu9o'
 }
 
+// Builds a single self-contained "fat" JAR at build/libs/hu9o.jar that bundles
+// every runtime dependency, so it can be launched with `java -jar` on any
+// machine that has a JRE. Shadow reads Main-Class from `application.mainClass`.
+shadowJar {
+    archiveBaseName = 'hu9o'
+    archiveClassifier = ''   // drop the default "-all" suffix
+    archiveVersion = ''      // drop the version number from the file name
+}
+
 test {
     useJUnitPlatform()
+
+    // Print each test method to the console as it runs, instead of only
+    // writing the HTML report. 'failed' also prints the assertion mismatch.
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
 }
 
 run {

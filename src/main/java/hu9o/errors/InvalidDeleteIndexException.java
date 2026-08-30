@@ -1,4 +1,4 @@
-package errors;
+package hu9o.errors;
 
 public class InvalidDeleteIndexException extends Hu9oException {
     public InvalidDeleteIndexException() {

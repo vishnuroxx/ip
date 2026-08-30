@@ -1,8 +1,10 @@
+package hu9o.task;
+
 import java.util.ArrayList;
 
-import errors.InvalidDeleteIndexException;
-import errors.InvalidMarkIndexException;
-import errors.InvalidUnmarkIndexException;
+import hu9o.errors.InvalidDeleteIndexException;
+import hu9o.errors.InvalidMarkIndexException;
+import hu9o.errors.InvalidUnmarkIndexException;
 
 /**
  * The in-memory list of tasks for the current program run.

@@ -1,12 +1,20 @@
+package hu9o.parser;
+
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import errors.Hu9oException;
-import errors.InvalidCommandException;
-import errors.InvalidDeadlineFormatException;
-import errors.InvalidEventFormatException;
-import errors.InvalidTodoFormatException;
+import hu9o.errors.Hu9oException;
+import hu9o.errors.InvalidCommandException;
+import hu9o.errors.InvalidDeadlineFormatException;
+import hu9o.errors.InvalidEventFormatException;
+import hu9o.errors.InvalidTodoFormatException;
+import hu9o.task.DeadlineTask;
+import hu9o.task.EventTask;
+import hu9o.task.Task;
+import hu9o.task.TaskList;
+import hu9o.task.ToDoTask;
+import hu9o.ui.Ui;
 
 /**
  * Turns text into actions for the rest of the program.
@@ -14,7 +22,7 @@ import errors.InvalidTodoFormatException;
  * <p>{@code Parser} handles two kinds of input: the pipe-delimited records read
  * from the save file ({@link #parseTask}), and the free-form commands typed by
  * the user ({@link #answerHandler}). It holds a {@link TaskList} to act on and a
- * {@link UI} to report results through, so all console output stays in {@code UI}.
+ * {@link Ui} to report results through, so all console output stays in {@code UI}.
  */
 public class Parser {
     /** Matches a todo command and captures its description. */
@@ -33,7 +41,7 @@ public class Parser {
     }
 
     private final TaskList tasks;
-    private final UI ui;
+    private final Ui ui;
 
     /**
      * Creates a parser that acts on the given task list and reports through the given UI.
@@ -41,7 +49,7 @@ public class Parser {
      * @param tasks the task list to read and modify
      * @param ui    the UI used to display results and errors
      */
-    public Parser(TaskList tasks, UI ui) {
+    public Parser(TaskList tasks, Ui ui) {
         this.tasks = tasks;
         this.ui = ui;
     }

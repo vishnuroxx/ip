@@ -1,12 +1,18 @@
+package hu9o.ui;
+
+import hu9o.task.Task;
+import hu9o.task.TaskList;
+
 /**
  * Owns every line Hu9o prints to the console.
  *
- * <p>Keeping all output in one class means the logic classes ({@link Parser},
- * {@link Storage}, {@link TaskList}) never touch {@code System.out} directly, so
- * the exact wording, spacing, and conversational pauses live in a single place.
- * {@code UI} handles output; {@link Parser} handles input.
+ * <p>Keeping all output in one class means the logic classes
+ * ({@link hu9o.parser.Parser}, {@link hu9o.storage.Storage}, {@link TaskList})
+ * never touch {@code System.out} directly, so the exact wording, spacing, and
+ * conversational pauses live in a single place. {@code UI} handles output;
+ * {@link hu9o.parser.Parser} handles input.
  */
-public class UI {
+public class Ui {
     /** Horizontal rule printed around each block of output. */
     private static final String SEPARATOR = "_________________________________";
 

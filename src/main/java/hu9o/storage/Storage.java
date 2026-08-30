@@ -1,21 +1,30 @@
+package hu9o.storage;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+import hu9o.parser.Parser;
+import hu9o.task.Task;
+import hu9o.task.TaskList;
+import hu9o.ui.Ui;
+
 /**
  * Reads and writes the task list on disk.
  *
- * <p>{@code Storage} knows where the save file lives and how each task is
+ * <p>
+ * {@code Storage} knows where the save file lives and how each task is
  * serialized line by line, but it delegates the actual text-to-task conversion
- * to {@link Parser} and all progress messages to {@link UI}.
+ * to {@link Parser} and all progress messages to {@link Ui}.
  */
 public class Storage {
     /** Location of the task file, relative to the directory where Hu9o is run. */
-    private static final Path TASK_DATA_PATH = Path.of("./data/taskData.txt");
+    private static final Path TASK_DATA_PATH = Path
+            .of(Path.of("").toAbsolutePath() + "/src/main/java/hu9o/storage/data/taskData.txt");
 
     private final Parser parser;
-    private final UI ui;
+    private final Ui ui;
 
     /**
      * Creates a storage helper.
@@ -23,7 +32,7 @@ public class Storage {
      * @param parser used to rebuild a task from each saved record
      * @param ui     used to show saving progress
      */
-    public Storage(Parser parser, UI ui) {
+    public Storage(Parser parser, Ui ui) {
         this.parser = parser;
         this.ui = ui;
     }
@@ -43,6 +52,7 @@ public class Storage {
                 }
             });
         } catch (IOException e) {
+            System.out.println(TASK_DATA_PATH);
             e.printStackTrace();
         }
     }

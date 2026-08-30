@@ -1,4 +1,4 @@
-package errors;
+package hu9o.errors;
 
 /** Indicates that the command name is not supported. */
 public class InvalidCommandException extends Hu9oException {

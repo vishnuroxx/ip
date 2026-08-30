@@ -1,3 +1,5 @@
+package hu9o.task;
+
 /**
  * Represents a task in Hu9o's todo list.
  */

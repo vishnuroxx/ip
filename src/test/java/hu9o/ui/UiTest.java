@@ -69,4 +69,26 @@ public class UiTest {
 
         assertEquals("", captured());
     }
+
+    @Test
+    public void showMatchingTasks_withMatches_printsHeaderThenNumberedList() {
+        TaskList matches = new TaskList();
+        matches.addTask(new ToDoTask("read book"));
+        matches.addTask(new ToDoTask("return book"));
+
+        new Ui().showMatchingTasks(matches);
+
+        assertEquals(
+                "Here are the matching tasks in your list:\n"
+                        + "1. [T][ ] read book\n"
+                        + "2. [T][ ] return book\n",
+                captured());
+    }
+
+    @Test
+    public void showMatchingTasks_noMatches_printsNotice() {
+        new Ui().showMatchingTasks(new TaskList());
+
+        assertEquals("No matching tasks found.\n", captured());
+    }
 }

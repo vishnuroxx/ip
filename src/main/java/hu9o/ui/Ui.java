@@ -100,6 +100,20 @@ public class Ui {
     }
 
     /**
+     * Prints the tasks that matched a find command, or a notice when none did.
+     *
+     * @param matches the tasks whose description contained the keyword.
+     */
+    public void showMatchingTasks(TaskList matches) {
+        if (matches.isEmpty()) {
+            System.out.println("No matching tasks found.");
+            return;
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        showTaskList(matches);
+    }
+
+    /**
      * Confirms that a task was added and reports the new task count.
      *
      * @param task      the task that was added.

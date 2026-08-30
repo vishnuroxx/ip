@@ -264,7 +264,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
+Unknown command. Use todo, list, find, deadline, event, mark, unmark, delete or bye
 _________________________________
 
 > 
@@ -347,7 +347,69 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
+Unknown command. Use todo, list, find, deadline, event, mark, unmark, delete or bye
+_________________________________
+
+> 
+ Saving data...
+ Successfully saved data
+_________________________________
+
+Bye. Hope to see you again soon! (wags tail)
+_________________________________
+
+```
+
+## Test case: find-tasks
+
+Aim:
+```text
+Verify that `find KEYWORD` lists the loaded tasks whose description contains the keyword (case-insensitively), reports when nothing matches, and rejects a find command with no keyword.
+```
+
+Command:
+```shell
+javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/find-tasks/data && printf 'T|X|read book|\nD|X|return book|06/06/26 3 PM|\nT| |wash car|\n' > build/ui-tests/find-tasks/data/taskData.txt && (cd build/ui-tests/find-tasks && java -cp ../../classes hu9o.Hu9o)
+```
+
+Input:
+```text
+find book
+find plants
+find
+bye
+```
+
+Expected output:
+```text
+_________________________________
+ _   _           ___ 
+| | | | | | | | / _ \   ___  
+| |_| | | | | || (_) | / _ \ 
+|  _  | | |_| | \__,| | (_) |
+|_| |_|  \___/   /_/   \___/ 
+_________________________________
+
+Give me a second....Loading tasks...
+Successful! Use list to view the tasks.
+Woof! I'm Hu9o!
+What can I do for you?
+
+> _________________________________
+
+Here are the matching tasks in your list:
+1. [T][X] read book
+2. [D][X] return book (by: 06 Jun, 3 PM)
+_________________________________
+
+> _________________________________
+
+No matching tasks found.
+_________________________________
+
+> _________________________________
+
+Invalid find format. Use: find KEYWORD
 _________________________________
 
 > 

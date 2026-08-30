@@ -2,6 +2,33 @@
 
 This is a project template for a greenfield Java project. It's named after the Java mascot Hu9o. Given below are instructions on how to use it.
 
+## Features
+
+Hu9o is a command-line task tracker. It understands these commands:
+
+| Command | Format | Description |
+| --- | --- | --- |
+| `todo` | `todo DESCRIPTION` | Add a todo. |
+| `deadline` | `deadline DESCRIPTION /by DATE` | Add a task with a deadline (`DATE` as `dd/MM/yy h[mm] a`, e.g. `12/08/26 3 PM`). |
+| `event` | `event DESCRIPTION /from START /to END` | Add a task that spans a period. |
+| `list` | `list` | Show every task. |
+| `find` | `find KEYWORD` | Show the tasks whose description contains `KEYWORD` (case-insensitive). |
+| `mark` / `unmark` | `mark INDEX` / `unmark INDEX` | Mark a task done / not done. |
+| `delete` | `delete INDEX` | Remove a task. |
+| `bye` | `bye` | Save and exit. |
+
+Example:
+
+```
+find book
+_________________________________
+
+Here are the matching tasks in your list:
+1. [T][X] read book
+2. [D][X] return book (by: 06 Jun, 3 PM)
+_________________________________
+```
+
 ## Setting up in Intellij
 
 Prerequisites: JDK 26, update Intellij to the most recent version.

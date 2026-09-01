@@ -30,7 +30,7 @@ public class EventTaskTest {
 
     @Test
     public void constructor_unparseableTime_throwsDateTimeParseException() {
-        assertThrows(DateTimeParseException.class,
-                () -> new EventTask("meeting", "next tuesday", "later"));
+        assertThrows(DateTimeParseException.class, () ->
+                new EventTask("meeting", "next tuesday", "later"));
     }
 }

@@ -38,7 +38,7 @@ public class DeadlineTaskTest {
 
     @Test
     public void constructor_unparseableTime_throwsDateTimeParseException() {
-        assertThrows(DateTimeParseException.class,
-                () -> new DeadlineTask("submit assignment", "sunday"));
+        assertThrows(DateTimeParseException.class, () ->
+                new DeadlineTask("submit assignment", "sunday"));
     }
 }

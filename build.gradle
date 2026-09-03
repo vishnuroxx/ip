@@ -22,16 +22,31 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.11.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // JavaFX 17 for the GUI (see se-education.org JavaFX tutorial parts 1-5).
+    // Every OS classifier is listed so the project still builds and runs on a
+    // machine whose JDK does not bundle JavaFX; ':mac-aarch64' covers Apple Silicon.
+    String javaFxVersion = '17.0.7'
+    List<String> javaFxPlatforms = ['win', 'mac', 'mac-aarch64', 'linux']
+    List<String> javaFxModules = ['javafx-base', 'javafx-controls', 'javafx-fxml', 'javafx-graphics']
+    javaFxModules.each { module ->
+        javaFxPlatforms.each { platform ->
+            implementation("org.openjfx:${module}:${javaFxVersion}:${platform}")
+        }
+    }
 }
 
 java {
+    // Java 25 matches the course toolchain; the Azul "FX" build of JDK 25 also
+    // bundles the JavaFX runtime, which the GUI needs (see AGENTS.md).
     toolchain {
-        languageVersion = JavaLanguageVersion.of(26)
-    }   
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 application {
-    mainClass = 'hu9o.Hu9o'
+    // The GUI is the default entry point; the text CLI still runs via hu9o.Hu9o.
+    mainClass = 'hu9o.gui.Launcher'
 }
 
 checkstyle {

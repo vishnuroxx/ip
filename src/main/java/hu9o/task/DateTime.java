@@ -10,7 +10,8 @@ import java.util.Locale;
  * Parses and formats the date-times used by {@link DeadlineTask} and
  * {@link EventTask}.
  *
- * <p>Input is accepted in {@code dd/MM/yy h[mm] a} form (for example
+ * <p>
+ * Input is accepted in {@code dd/MM/yy h[mm] a} form (for example
  * {@code 12/08/26 3 PM}). Two output forms are produced: a storage form that
  * round-trips through {@link #parseString(String)}, and a friendlier display
  * form.
@@ -19,7 +20,7 @@ public class DateTime {
     /** Formatter used to read user- and file-supplied date-times. */
     private static final DateTimeFormatter INPUT_FORMAT = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .appendPattern("dd/MM/yy h[mm] a")
+            .appendPattern("d/M/yy h[mm] a")
             .toFormatter(Locale.ENGLISH);
 
     private DateTime() {

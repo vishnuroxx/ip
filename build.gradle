@@ -76,4 +76,5 @@ test {
 
 run {
     standardInput = System.in
+    enableAssertions = true   // so `./gradlew run` exercises the `assert` statements
 }

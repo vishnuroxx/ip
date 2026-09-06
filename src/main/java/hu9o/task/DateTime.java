@@ -45,6 +45,8 @@ public class DateTime {
      * @return the storage-form text, such as {@code 12/08/26 3 PM}.
      */
     public static String formatForStorage(LocalDateTime dateTime) {
+        // Only ever called on an already-parsed field of a Deadline/Event task.
+        assert dateTime != null : "formatForStorage needs a date-time to format";
         String pattern = dateTime.getMinute() > 0 ? "dd/MM/yy hmm a" : "dd/MM/yy h a";
         return dateTime.format(DateTimeFormatter.ofPattern(pattern, Locale.US));
     }
@@ -56,6 +58,8 @@ public class DateTime {
      * @return the display-form text, such as {@code 12 Aug, 3 PM}.
      */
     public static String formatForDisplay(LocalDateTime dateTime) {
+        // Only ever called on an already-parsed field of a Deadline/Event task.
+        assert dateTime != null : "formatForDisplay needs a date-time to format";
         String pattern = dateTime.getMinute() > 0 ? "dd MMM, hmm a" : "dd MMM, h a";
         return dateTime.format(DateTimeFormatter.ofPattern(pattern, Locale.US));
     }

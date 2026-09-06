@@ -40,6 +40,8 @@ public class Hu9o {
      * @param ui the UI shared by every collaborator.
      */
     private Hu9o(Ui ui) {
+        // Callers pass either new Ui() or Ui.createForGui(), never null.
+        assert ui != null : "Hu9o needs a UI shared by every collaborator";
         this.ui = ui;
         this.tasks = new TaskList();
         this.parser = new Parser(tasks, ui);

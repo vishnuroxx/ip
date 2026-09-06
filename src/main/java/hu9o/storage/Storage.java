@@ -31,6 +31,9 @@ public class Storage {
      * @param ui     used to show saving progress.
      */
     public Storage(Parser parser, Ui ui) {
+        // Both collaborators are wired up by Hu9o; a null here is a construction bug.
+        assert parser != null : "Storage needs a parser to rebuild saved tasks";
+        assert ui != null : "Storage needs a UI to show saving progress";
         this.parser = parser;
         this.ui = ui;
     }

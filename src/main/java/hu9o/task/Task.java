@@ -15,6 +15,10 @@ public abstract class Task {
      * @param taskType    the one-letter task type shown in the task output.
      */
     protected Task(String description, String taskType) {
+        // taskType is always a one-letter literal ("T"/"D"/"E") from a subclass;
+        // compressionString(), toString(), and Parser.parseTask() all rely on that.
+        assert taskType != null && taskType.length() == 1
+                : "taskType must be a single-letter code";
         this.description = description;
         this.taskType = taskType;
     }

@@ -52,6 +52,8 @@ public class MainWindow extends AnchorPane {
      * @param hu9o the chatbot that produces replies.
      */
     public void setHu9o(Hu9o hu9o) {
+        // Main always injects a real back end straight after loading the FXML.
+        assert hu9o != null : "MainWindow requires a Hu9o back end";
         this.hu9o = hu9o;
         dialogContainer.getChildren().add(
                 DialogBox.getHu9oDialog(hu9o.getWelcomeMessage(), hu9oImage));
@@ -64,6 +66,8 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        // The send button and text field are only live after setHu9o() has run.
+        assert hu9o != null : "setHu9o() must be called before handling input";
         String input = userInput.getText();
         if (input.isBlank()) {
             return;

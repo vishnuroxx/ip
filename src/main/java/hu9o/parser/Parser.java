@@ -54,6 +54,10 @@ public class Parser {
      * @param ui    the UI used to display results and errors.
      */
     public Parser(TaskList tasks, Ui ui) {
+        // Both collaborators are wired up by Hu9o, never supplied from outside;
+        // a null here is a construction bug, not a user error.
+        assert tasks != null : "Parser needs a task list to act on";
+        assert ui != null : "Parser needs a UI to report through";
         this.tasks = tasks;
         this.ui = ui;
     }
@@ -96,6 +100,9 @@ public class Parser {
      */
     public void handleCommand(String command) {
         String[] parts = command.trim().split("\\s+");
+        // trim() + split on whitespace always yields at least one element:
+        // an all-blank command trims to "", which split returns as [""].
+        assert parts.length >= 1 : "splitting a trimmed string on whitespace should yield at least one element";
         ui.showBlockStart();
         try {
             switch (parseCommand(parts[0])) {
@@ -190,6 +197,10 @@ public class Parser {
      */
     private int parseIndex(String[] parts) {
         boolean isValid = parts.length == 2 && parts[1].matches("[1-9][0-9]{0,8}");
-        return isValid ? Integer.parseInt(parts[1]) : 0;
+        int index = isValid ? Integer.parseInt(parts[1]) : 0;
+        // TaskList treats "0 or negative" as out of range; the regex above only
+        // admits positive numbers, so a negative result would be a parsing bug.
+        assert index >= 0 : "parseIndex should never return a negative number";
+        return index;
     }
 }

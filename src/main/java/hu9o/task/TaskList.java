@@ -1,6 +1,7 @@
 package hu9o.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import hu9o.errors.InvalidDeleteIndexException;
 import hu9o.errors.InvalidMarkIndexException;
@@ -52,13 +53,11 @@ public class TaskList extends ArrayList<Task> {
      */
     public TaskList findTasks(String keyword) {
         String lowerKeyword = keyword.toLowerCase();
-        TaskList matches = new TaskList();
-        for (Task task : this) {
-            if (task.getTaskDescription().toLowerCase().contains(lowerKeyword)) {
-                matches.addTask(task);
-            }
-        }
-        return matches;
+        // toCollection(TaskList::new) keeps the return type a TaskList rather
+        // than a plain List, so callers still get the task-aware operations.
+        return stream()
+                .filter(task -> task.getTaskDescription().toLowerCase().contains(lowerKeyword))
+                .collect(Collectors.toCollection(TaskList::new));
     }
 
     /**

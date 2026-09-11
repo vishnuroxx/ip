@@ -3,7 +3,10 @@ package hu9o.ui;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
+import hu9o.contact.Person;
+import hu9o.contact.PersonNetwork;
 import hu9o.task.Task;
 import hu9o.task.TaskList;
 
@@ -209,6 +212,106 @@ public class Ui {
      */
     public void showTaskDeleted(Task task) {
         out.println("Got it. Deleted the following task:\n\t" + task);
+    }
+
+    /**
+     * Confirms that a person was added and reports the new person count.
+     *
+     * @param person      the person that was added.
+     * @param personCount the number of people now in the network.
+     */
+    public void showPersonAdded(Person person, int personCount) {
+        out.println("Got it. I've added this person:\n\t" + person);
+        out.println("Now you have " + personCount + " people in the network.");
+    }
+
+    /**
+     * Prints the whole person network, one numbered person per line.
+     *
+     * @param people the people to display.
+     */
+    public void showPersonList(PersonNetwork people) {
+        int index = 1;
+        for (Person person : people) {
+            out.println(index + ". " + person);
+            index++;
+        }
+    }
+
+    /**
+     * Prints the people that matched a findperson command, or a notice when none did.
+     *
+     * @param matches the people whose name contained the keyword.
+     */
+    public void showMatchingPeople(PersonNetwork matches) {
+        if (matches.isEmpty()) {
+            out.println("No matching people found.");
+            return;
+        }
+        out.println("Here are the matching people in your network:");
+        showPersonList(matches);
+    }
+
+    /**
+     * Confirms that a person was deleted.
+     *
+     * @param person the person that was removed.
+     */
+    public void showPersonDeleted(Person person) {
+        out.println("Got it. Deleted the following person:\n\t" + person);
+    }
+
+    /**
+     * Confirms that two people were linked.
+     *
+     * @param first  one of the two people that were connected.
+     * @param second the other person that was connected.
+     */
+    public void showLinkAdded(Person first, Person second) {
+        out.println("Got it. Linked " + first.getName() + " and " + second.getName() + ".");
+    }
+
+    /**
+     * Prints the people connected to a person, or a notice when there are none.
+     *
+     * @param person      the person whose connections were looked up.
+     * @param connections the people linked to them.
+     */
+    public void showConnections(Person person, List<Person> connections) {
+        if (connections.isEmpty()) {
+            out.println(person.getName() + " has no connections yet.");
+            return;
+        }
+        out.println(person.getName() + " is connected to:");
+        int index = 1;
+        for (Person connection : connections) {
+            out.println(index + ". " + connection.getName());
+            index++;
+        }
+    }
+
+    /**
+     * Confirms that a person is now selected: session commands like todo and
+     * list will apply to their own task list until deselected.
+     *
+     * @param person the person now selected.
+     */
+    public void showSelected(Person person) {
+        out.println("Now viewing " + person.getName()
+                + "'s list. todo/list/mark/... apply to them until you deselect.");
+    }
+
+    /**
+     * Confirms that the current selection was cleared.
+     *
+     * @param wasSelected {@code true} if someone was actually selected beforehand.
+     */
+    public void showDeselected(boolean wasSelected) {
+        if (wasSelected) {
+            out.println("Back to your own list.");
+        } else {
+            out.println("No one was selected.");
+        }
     }
 
     /**

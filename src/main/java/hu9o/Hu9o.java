@@ -2,6 +2,10 @@ package hu9o;
 
 import java.util.Scanner;
 
+import hu9o.contact.ContactParser;
+import hu9o.contact.ContactStorage;
+import hu9o.contact.Person;
+import hu9o.contact.PersonNetwork;
 import hu9o.parser.Parser;
 import hu9o.storage.Storage;
 import hu9o.task.TaskList;
@@ -10,14 +14,22 @@ import hu9o.ui.Ui;
 /**
  * Entry point for the Hu9o chatbot, shared by the text CLI and the JavaFX GUI.
  *
- * <p>Hu9o wires together four collaborators and runs the read-evaluate-print
- * loop, but delegates every real responsibility:
+ * <p>Hu9o wires together the task-tracking collaborators and runs the
+ * read-evaluate-print loop, but delegates every real responsibility:
  * <ul>
  *   <li>{@link Ui} &ndash; all output</li>
  *   <li>{@link Storage} &ndash; loading and saving tasks on disk</li>
  *   <li>{@link TaskList} &ndash; the in-memory list of tasks</li>
  *   <li>{@link Parser} &ndash; turning user and file text into actions</li>
  * </ul>
+ *
+ * <p>It also wires up a separate, self-contained contact-network feature
+ * ({@link PersonNetwork}, {@link ContactParser}, {@link ContactStorage}) and
+ * routes each command to whichever side should handle it in
+ * {@link #dispatchCommand(String)}. A contact verb always goes to the
+ * contact parser; any other command goes to the task {@link Parser} &ndash;
+ * against the global {@link #tasks} list normally, or against whichever
+ * person is currently {@code select}ed, if anyone is.
  *
  * <p>{@link #main(String[])} runs the console loop. The GUI instead builds Hu9o
  * with {@link #createForGui()} and feeds it one line at a time through
@@ -28,6 +40,9 @@ public class Hu9o {
     private final TaskList tasks;
     private final Parser parser;
     private final Storage storage;
+    private final PersonNetwork people;
+    private final ContactParser contactParser;
+    private final ContactStorage contactStorage;
 
     /** Creates a console Hu9o that prints its output to the terminal. */
     public Hu9o() {
@@ -46,6 +61,9 @@ public class Hu9o {
         this.tasks = new TaskList();
         this.parser = new Parser(tasks, ui);
         this.storage = new Storage(parser, ui);
+        this.people = new PersonNetwork();
+        this.contactParser = new ContactParser(people, ui);
+        this.contactStorage = new ContactStorage(parser);
     }
 
     /**
@@ -57,6 +75,7 @@ public class Hu9o {
     public static Hu9o createForGui() {
         Hu9o hu9o = new Hu9o(Ui.createForGui());
         hu9o.storage.loadTasks(hu9o.tasks);
+        hu9o.contactStorage.loadAll(hu9o.people);
         return hu9o;
     }
 
@@ -64,6 +83,7 @@ public class Hu9o {
     public void run() {
         ui.showWelcome();
         storage.loadTasks(tasks);
+        contactStorage.loadAll(people);
         ui.showReady();
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -71,10 +91,10 @@ public class Hu9o {
                 ui.displayQuery();
                 String command = scanner.nextLine();
                 if (command.equalsIgnoreCase("bye")) {
-                    storage.dumpTasks(tasks);
+                    saveAll();
                     break;
                 }
-                parser.handleCommand(command);
+                dispatchCommand(command);
             }
         }
 
@@ -90,12 +110,41 @@ public class Hu9o {
      */
     public String getResponse(String input) {
         if (isExitCommand(input)) {
-            storage.dumpTasks(tasks);
+            saveAll();
             ui.readCaptured();
             return "Bye. Hope to see you again soon! (wags tail)";
         }
-        parser.handleCommand(input);
+        dispatchCommand(input);
         return ui.readCaptured();
+    }
+
+    /**
+     * Routes one command line to whichever parser should handle it: a
+     * contact verb always goes to {@link #contactParser}; anything else goes
+     * to a task {@link Parser} &ndash; against the currently selected
+     * person's own list if someone is selected, or against the global
+     * {@link #tasks} list otherwise. A throwaway {@code Parser} is
+     * constructed per call when a person is selected, since {@code Parser}
+     * carries no state beyond the {@link TaskList}/{@link Ui} references it
+     * is given.
+     *
+     * @param command the complete command entered by the user.
+     */
+    private void dispatchCommand(String command) {
+        String firstWord = command.trim().split("\\s+")[0];
+        if (contactParser.isContactCommand(firstWord)) {
+            contactParser.handleCommand(command);
+            return;
+        }
+        Person selected = contactParser.getSelectedPerson();
+        Parser activeParser = selected == null ? parser : new Parser(selected.getTasks(), ui);
+        activeParser.handleCommand(command);
+    }
+
+    /** Saves the global task list and the whole contact network before exit. */
+    private void saveAll() {
+        storage.dumpTasks(tasks);
+        contactStorage.dumpAll(people);
     }
 
     /**

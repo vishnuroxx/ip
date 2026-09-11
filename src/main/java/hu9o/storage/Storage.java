@@ -3,10 +3,11 @@ package hu9o.storage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import hu9o.parser.Parser;
-import hu9o.task.Task;
 import hu9o.task.TaskList;
 import hu9o.ui.Ui;
 
@@ -49,12 +50,9 @@ public class Storage {
             return; // no save file yet (e.g. first run) -- start with an empty list
         }
         try (Stream<String> lines = Files.lines(TASK_DATA_PATH)) {
-            lines.forEach(line -> {
-                Task task = parser.parseTask(line);
-                if (task != null) {
-                    tasks.addTask(task);
-                }
-            });
+            lines.map(parser::parseTask)
+                    .filter(Objects::nonNull) // drop lines whose type code was unknown
+                    .forEach(tasks::addTask);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -67,14 +65,15 @@ public class Storage {
      * @param tasks the tasks to persist.
      */
     public void dumpTasks(TaskList tasks) {
-        StringBuilder result = new StringBuilder();
-        for (Task task : tasks) {
-            result.append(task.compressionString()).append("\n");
-        }
+        // One record per line, each line terminated by '\n' (so an empty list
+        // produces an empty file); joining() then concatenates the pieces.
+        String data = tasks.stream()
+                .map(task -> task.compressionString() + "\n")
+                .collect(Collectors.joining());
 
         try {
             Files.createDirectories(TASK_DATA_PATH.getParent()); // make ./data/ if it is absent
-            Files.writeString(TASK_DATA_PATH, result.toString());
+            Files.writeString(TASK_DATA_PATH, data);
             ui.showSaving();
         } catch (IOException exception) {
             exception.printStackTrace();

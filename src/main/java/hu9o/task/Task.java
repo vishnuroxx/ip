@@ -11,10 +11,14 @@ public abstract class Task {
     /**
      * Creates an unfinished task of the specified type.
      *
-     * @param description the task's description
-     * @param taskType    the one-letter task type shown in the task output
+     * @param description the task's description.
+     * @param taskType    the one-letter task type shown in the task output.
      */
     protected Task(String description, String taskType) {
+        // taskType is always a one-letter literal ("T"/"D"/"E") from a subclass;
+        // compressionString(), toString(), and Parser.parseTask() all rely on that.
+        assert taskType != null && taskType.length() == 1
+                : "taskType must be a single-letter code";
         this.description = description;
         this.taskType = taskType;
     }
@@ -27,7 +31,12 @@ public abstract class Task {
         return this.description;
     }
 
-    public String isMarked() {
+    /**
+     * Returns the one-character status icon: {@code "X"} when done, a space otherwise.
+     *
+     * @return the status icon.
+     */
+    public String getStatusIcon() {
         return isDone ? "X" : " ";
     }
 
@@ -48,17 +57,22 @@ public abstract class Task {
     /**
      * Provides the type-specific text shown after the task description.
      *
-     * @return the formatted task specification, including its parentheses
+     * @return the formatted task specification, including its parentheses.
      */
     protected abstract String specificationSuffix();
 
+    /**
+     * Returns this task as a pipe-delimited record for the save file,
+     * such as {@code T|X|read book|}.
+     *
+     * @return the persistence record for this task.
+     */
     public String compressionString() {
-        return taskType + "|" + isMarked() + "|" + description + "|";
+        return taskType + "|" + getStatusIcon() + "|" + description + "|";
     }
 
     @Override
     public String toString() {
-        String status = isDone ? "X" : " ";
-        return "[" + taskType + "][" + status + "] " + description + specificationSuffix();
+        return "[" + taskType + "][" + getStatusIcon() + "] " + description + specificationSuffix();
     }
 }

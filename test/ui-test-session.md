@@ -7,7 +7,7 @@ Aim: Verify that the application starts and exits politely when the user enters 
 ### Command
 
 ```text
-javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/exit-greeting/data && : > build/ui-tests/exit-greeting/data/taskData.txt && (cd build/ui-tests/exit-greeting && java -cp ../../classes hu9o.Hu9o)
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/exit-greeting/data && : > build/ui-tests/exit-greeting/data/taskData.txt && (cd build/ui-tests/exit-greeting && java -cp ../../classes hu9o.Hu9o)
 ```
 
 ### Input sent to stdin
@@ -51,7 +51,7 @@ Aim: Verify that Hu9o loads saved todo, deadline, and event tasks, including the
 ### Command
 
 ```text
-javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/load-saved-tasks/data && printf 'T| |read book|\nD|X|submit assignment|12/08/26 3 PM|\nE| |project meeting|12/08/26 2 PM|12/08/26 4 PM|\n' > build/ui-tests/load-saved-tasks/data/taskData.txt && (cd build/ui-tests/load-saved-tasks && java -cp ../../classes hu9o.Hu9o)
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/load-saved-tasks/data && printf 'T| |read book|\nD|X|submit assignment|12/08/26 3 PM|\nE| |project meeting|12/08/26 2 PM|12/08/26 4 PM|\n' > build/ui-tests/load-saved-tasks/data/taskData.txt && (cd build/ui-tests/load-saved-tasks && java -cp ../../classes hu9o.Hu9o)
 ```
 
 ### Input sent to stdin
@@ -103,7 +103,7 @@ Aim: Verify that tasks created during a session are written to the data file whe
 ### Command
 
 ```text
-javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/dump-tasks-on-exit/data && : > build/ui-tests/dump-tasks-on-exit/data/taskData.txt && ((cd build/ui-tests/dump-tasks-on-exit && java -cp ../../classes hu9o.Hu9o) && cat build/ui-tests/dump-tasks-on-exit/data/taskData.txt)
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/dump-tasks-on-exit/data && : > build/ui-tests/dump-tasks-on-exit/data/taskData.txt && ((cd build/ui-tests/dump-tasks-on-exit && java -cp ../../classes hu9o.Hu9o) && cat build/ui-tests/dump-tasks-on-exit/data/taskData.txt)
 ```
 
 ### Input sent to stdin
@@ -181,7 +181,7 @@ Aim: Verify adding todo, deadline, and event tasks; listing tasks; marking and u
 ### Command
 
 ```text
-javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/task-lifecycle/data && : > build/ui-tests/task-lifecycle/data/taskData.txt && (cd build/ui-tests/task-lifecycle && java -cp ../../classes hu9o.Hu9o)
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/task-lifecycle/data && : > build/ui-tests/task-lifecycle/data/taskData.txt && (cd build/ui-tests/task-lifecycle && java -cp ../../classes hu9o.Hu9o)
 ```
 
 ### Input sent to stdin
@@ -269,7 +269,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
+Unknown command. Use todo, list, find, deadline, event, mark, unmark, delete or bye
 _________________________________
 
 > 
@@ -291,7 +291,7 @@ Aim: Verify that each invalid command form is handled by its specific Hu9oExcept
 ### Command
 
 ```text
-javac -d build/classes $(find src/main/java -name "*.java") && mkdir -p build/ui-tests/command-errors/data && : > build/ui-tests/command-errors/data/taskData.txt && (cd build/ui-tests/command-errors && java -cp ../../classes hu9o.Hu9o)
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/command-errors/data && : > build/ui-tests/command-errors/data/taskData.txt && (cd build/ui-tests/command-errors && java -cp ../../classes hu9o.Hu9o)
 ```
 
 ### Input sent to stdin
@@ -355,7 +355,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Use todo, list, deadline, event, mark, unmark, delete or bye
+Unknown command. Use todo, list, find, deadline, event, mark, unmark, delete or bye
 _________________________________
 
 > 
@@ -370,4 +370,68 @@ _________________________________
 
 Exit code: `0`
 
-All 5 test case(s) passed.
+## 6. find-tasks - PASS
+
+Aim: Verify that `find KEYWORD` lists the loaded tasks whose description contains the keyword (case-insensitively), reports when nothing matches, and rejects a find command with no keyword.
+
+### Command
+
+```text
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/find-tasks/data && printf 'T|X|read book|\nD|X|return book|06/06/26 3 PM|\nT| |wash car|\n' > build/ui-tests/find-tasks/data/taskData.txt && (cd build/ui-tests/find-tasks && java -cp ../../classes hu9o.Hu9o)
+```
+
+### Input sent to stdin
+
+```text
+find book
+find plants
+find
+bye
+```
+
+### Program output
+
+```text
+_________________________________
+ _   _           ___ 
+| | | | | | | | / _ \   ___  
+| |_| | | | | || (_) | / _ \ 
+|  _  | | |_| | \__,| | (_) |
+|_| |_|  \___/   /_/   \___/ 
+_________________________________
+
+Give me a second....Loading tasks...
+Successful! Use list to view the tasks.
+Woof! I'm Hu9o!
+What can I do for you?
+
+> _________________________________
+
+Here are the matching tasks in your list:
+1. [T][X] read book
+2. [D][X] return book (by: 06 Jun, 3 PM)
+_________________________________
+
+> _________________________________
+
+No matching tasks found.
+_________________________________
+
+> _________________________________
+
+Invalid find format. Use: find KEYWORD
+_________________________________
+
+> 
+ Saving data...
+ Successfully saved data
+_________________________________
+
+Bye. Hope to see you again soon! (wags tail)
+_________________________________
+
+```
+
+Exit code: `0`
+
+All 6 test case(s) passed.

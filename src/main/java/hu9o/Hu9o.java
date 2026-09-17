@@ -2,6 +2,7 @@ package hu9o;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import hu9o.contact.ContactParser;
 import hu9o.contact.ContactStorage;
@@ -37,6 +38,12 @@ import hu9o.ui.Ui;
  * {@link #getResponse(String)}.
  */
 public class Hu9o {
+    /** Words that greet Hu9o rather than name a command. */
+    private static final Set<String> GREETINGS = Set.of("hi", "hello", "hey", "hiya", "yo");
+
+    /** Number of tasks at or above which the welcome message remarks on the size of the list. */
+    private static final int MANY_TASKS_THRESHOLD = 10;
+
     private final Ui ui;
     private final TaskList tasks;
     private final Parser parser;
@@ -95,6 +102,10 @@ public class Hu9o {
                     saveAll();
                     break;
                 }
+                if (isGreeting(command)) {
+                    respondToGreeting();
+                    continue;
+                }
                 dispatchCommand(command);
             }
         }
@@ -115,8 +126,30 @@ public class Hu9o {
             ui.readCaptured();
             return "Bye. Hope to see you again soon! (wags tail)";
         }
+        if (isGreeting(input)) {
+            respondToGreeting();
+            return ui.readCaptured();
+        }
         dispatchCommand(input);
         return ui.readCaptured();
+    }
+
+    /**
+     * Returns whether the given input is a greeting rather than a command,
+     * ignoring case and surrounding spaces.
+     *
+     * @param input the text the user typed.
+     * @return {@code true} if the input is one of {@link #GREETINGS}.
+     */
+    private boolean isGreeting(String input) {
+        return GREETINGS.contains(input.trim().toLowerCase());
+    }
+
+    /** Prints a friendly greeting, wrapped the same way a normal command's output is. */
+    private void respondToGreeting() {
+        ui.showBlockStart();
+        ui.showGreeting();
+        ui.showBlockEnd();
     }
 
     /**
@@ -199,8 +232,24 @@ public class Hu9o {
      * @return the welcome message.
      */
     public String getWelcomeMessage() {
-        return "Woof! I'm Hu9o!\n"
-                + tasks.size() + " task(s) loaded. What can I do for you?";
+        return "Woof! I'm Hu9o!\n" + taskCountRemark(tasks.size()) + " What can I do for you?";
+    }
+
+    /**
+     * Returns a remark on the size of the task list, tailored to how many
+     * tasks are loaded: encouraging when the list is empty, matter-of-fact
+     * for a normal-sized list, and sympathetic once it gets long.
+     *
+     * @param taskCount the number of tasks currently loaded.
+     * @return the remark, ending in a full stop.
+     */
+    private String taskCountRemark(int taskCount) {
+        if (taskCount == 0) {
+            return "Your list is empty -- nothing to fetch yet!";
+        } else if (taskCount >= MANY_TASKS_THRESHOLD) {
+            return "Whoa, " + taskCount + " tasks?! Let's get through them one at a time.";
+        }
+        return taskCount + " task(s) loaded.";
     }
 
     /**

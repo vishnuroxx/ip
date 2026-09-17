@@ -145,6 +145,11 @@ public class Ui {
         pause(200);
     }
 
+    /** Prints a friendly reply to a greeting such as {@code hi} or {@code hello}. */
+    public void showGreeting() {
+        out.println("Woof! Hello there! What can I do for you?");
+    }
+
     /** Prints the farewell shown after the user types {@code bye}. */
     public void showFarewell() {
         out.println(SEPARATOR);

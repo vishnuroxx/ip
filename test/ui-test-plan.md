@@ -266,7 +266,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command, woof! Here's what I understand -- Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -319,37 +319,37 @@ What can I do for you?
 
 > _________________________________
 
-Invalid todo format. Use: todo DESCRIPTION
+Ruff, I need a description for that todo! Try: todo DESCRIPTION
 _________________________________
 
 > _________________________________
 
-Invalid index. Check the list of items using "list"
+I can't find that task! Check the list of items using "list"
 _________________________________
 
 > _________________________________
 
-Invalid index. Check the list of items using "list"
+I can't find that task! Check the list of items using "list"
 _________________________________
 
 > _________________________________
 
-Invalid index for deleting. Check the list of items using "list"
+I can't find that task to delete! Check the list of items using "list"
 _________________________________
 
 > _________________________________
 
-Invalid deadline format. Use: deadline DESCRIPTION /by DATE
+That deadline's missing something! Try: deadline DESCRIPTION /by DATE
 _________________________________
 
 > _________________________________
 
-Invalid event format. Use: event DESCRIPTION /from START /to END
+That event's missing something! Try: event DESCRIPTION /from START /to END
 _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command, woof! Here's what I understand -- Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -411,7 +411,7 @@ _________________________________
 
 > _________________________________
 
-Invalid find format. Use: find KEYWORD
+What should I search for? Try: find KEYWORD
 _________________________________
 
 > 
@@ -514,7 +514,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command, woof! Here's what I understand -- Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -859,7 +859,7 @@ What can I do for you?
 
 > _________________________________
 
-Invalid person format. Use: person NAME /phone PHONE /email EMAIL [/dob DOB] [/notes NOTES]
+That person's missing some details! Try: person NAME /phone PHONE /email EMAIL [/dob DOB] [/notes NOTES]
 _________________________________
 
 > _________________________________
@@ -871,32 +871,32 @@ _________________________________
 
 > _________________________________
 
-No person with that name. Check the list of people using "people"
+No person with that name! Check the list of people using "people"
 _________________________________
 
 > _________________________________
 
-No person with that name. Check the list of people using "people"
+No person with that name! Check the list of people using "people"
 _________________________________
 
 > _________________________________
 
-Cannot link a person to themselves.
+You can't link someone to themselves, silly!
 _________________________________
 
 > _________________________________
 
-Invalid index for deleting. Check the list of people using "people"
+I can't find that person to delete! Check the list of people using "people"
 _________________________________
 
 > _________________________________
 
-Invalid findperson format. Use: findperson KEYWORD
+Who should I search for? Try: findperson KEYWORD
 _________________________________
 
 > _________________________________
 
-Invalid connections format. Use: connections NAME
+Whose connections do you want to see? Try: connections NAME
 _________________________________
 
 > 
@@ -1012,7 +1012,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command, woof! Here's what I understand -- Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -1103,6 +1103,68 @@ _________________________________
 > _________________________________
 
 [████████████████████] 2/2 tasks completed (100%)
+_________________________________
+
+> 
+ Saving data...
+ Successfully saved data
+_________________________________
+
+Bye. Hope to see you again soon! (wags tail)
+_________________________________
+
+```
+
+## Test case: greeting-command
+
+Aim:
+```text
+Verify that a greeting such as "hi" gets a friendly reply instead of an unknown-command error, and that it does not disturb the task list.
+```
+
+Command:
+```shell
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/greeting-command/data && : > build/ui-tests/greeting-command/data/taskData.txt && (cd build/ui-tests/greeting-command && java -cp ../../classes hu9o.Hu9o)
+```
+
+Input:
+```text
+hi
+hello
+todo read book
+bye
+```
+
+Expected output:
+```text
+_________________________________
+ _   _           ___ 
+| | | | | | | | / _ \   ___  
+| |_| | | | | || (_) | / _ \ 
+|  _  | | |_| | \__,| | (_) |
+|_| |_|  \___/   /_/   \___/ 
+_________________________________
+
+Give me a second....Loading tasks...
+Successful! Use list to view the tasks.
+Woof! I'm Hu9o!
+What can I do for you?
+
+> _________________________________
+
+Woof! Hello there! What can I do for you?
+_________________________________
+
+> _________________________________
+
+Woof! Hello there! What can I do for you?
+_________________________________
+
+> _________________________________
+
+Got it. I've added this task:
+	[T][ ] read book
+Now you have 1 tasks in the list.
 _________________________________
 
 > 

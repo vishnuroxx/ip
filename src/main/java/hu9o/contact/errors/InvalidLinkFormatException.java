@@ -5,6 +5,6 @@ import hu9o.errors.Hu9oException;
 /** Indicates that a link command does not name two people. */
 public class InvalidLinkFormatException extends Hu9oException {
     public InvalidLinkFormatException() {
-        super("Invalid link format. Use: link NAME1 /with NAME2");
+        super("That link's missing a name! Try: link NAME1 /with NAME2");
     }
 }

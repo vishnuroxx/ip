@@ -61,6 +61,15 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
+     * Returns how many tasks in this list are marked done.
+     *
+     * @return the number of done tasks.
+     */
+    public long countDone() {
+        return stream().filter(Task::isDone).count();
+    }
+
+    /**
      * Returns the task at the given one-based position for a mark or unmark command.
      *
      * @param oneBasedIndex  the task number shown to the user (1 = first task);

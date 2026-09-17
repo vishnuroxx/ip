@@ -266,7 +266,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -349,7 +349,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -514,7 +514,7 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
 _________________________________
 
 > 
@@ -1012,7 +1012,97 @@ _________________________________
 
 > _________________________________
 
-Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+Unknown command. Tasks: todo, list, find, deadline, event, mark, unmark, delete, progress, bye. Contacts: person, people, findperson, deleteperson, link, connections, select, deselect.
+_________________________________
+
+> 
+ Saving data...
+ Successfully saved data
+_________________________________
+
+Bye. Hope to see you again soon! (wags tail)
+_________________________________
+
+```
+
+## Test case: progress-command
+
+Aim:
+```text
+Verify the progress command on an empty list, a partially completed list, and a fully completed list.
+```
+
+Command:
+```shell
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && mkdir -p build/ui-tests/progress-command/data && : > build/ui-tests/progress-command/data/taskData.txt && (cd build/ui-tests/progress-command && java -cp ../../classes hu9o.Hu9o)
+```
+
+Input:
+```text
+progress
+todo read book
+todo write report
+mark 1
+progress
+mark 2
+progress
+bye
+```
+
+Expected output:
+```text
+_________________________________
+ _   _           ___ 
+| | | | | | | | / _ \   ___  
+| |_| | | | | || (_) | / _ \ 
+|  _  | | |_| | \__,| | (_) |
+|_| |_|  \___/   /_/   \___/ 
+_________________________________
+
+Give me a second....Loading tasks...
+Successful! Use list to view the tasks.
+Woof! I'm Hu9o!
+What can I do for you?
+
+> _________________________________
+
+No tasks yet -- nothing to track progress on!
+_________________________________
+
+> _________________________________
+
+Got it. I've added this task:
+	[T][ ] read book
+Now you have 1 tasks in the list.
+_________________________________
+
+> _________________________________
+
+Got it. I've added this task:
+	[T][ ] write report
+Now you have 2 tasks in the list.
+_________________________________
+
+> _________________________________
+
+Nice! I've marked this task as done:
+	[T][X] read book
+_________________________________
+
+> _________________________________
+
+[██████████░░░░░░░░░░] 1/2 tasks completed (50%)
+_________________________________
+
+> _________________________________
+
+Nice! I've marked this task as done:
+	[T][X] write report
+_________________________________
+
+> _________________________________
+
+[████████████████████] 2/2 tasks completed (100%)
 _________________________________
 
 > 

@@ -36,6 +36,9 @@ public class Ui {
             + "|  _  | | |_| | \\__,| | (_) |\n"
             + "|_| |_|  \\___/   /_/   \\___/ \n";
 
+    /** Width, in characters, of the progress bar printed by {@link #showProgress(TaskList)}. */
+    private static final int PROGRESS_BAR_WIDTH = 20;
+
     /** Destination for all output: the console, or a buffer in GUI mode. */
     private final PrintStream out;
 
@@ -160,6 +163,24 @@ public class Ui {
             out.println(index + ". " + task);
             index++;
         }
+    }
+
+    /**
+     * Prints a progress bar showing how many tasks are marked done out of the total.
+     *
+     * @param tasks the tasks to summarise.
+     */
+    public void showProgress(TaskList tasks) {
+        int total = tasks.size();
+        if (total == 0) {
+            out.println("No tasks yet -- nothing to track progress on!");
+            return;
+        }
+        long done = tasks.countDone();
+        int filled = (int) Math.round(PROGRESS_BAR_WIDTH * (double) done / total);
+        int percent = (int) Math.round(100.0 * done / total);
+        String bar = "█".repeat(filled) + "░".repeat(PROGRESS_BAR_WIDTH - filled);
+        out.println("[" + bar + "] " + done + "/" + total + " tasks completed (" + percent + "%)");
     }
 
     /**

@@ -73,6 +73,19 @@ public class DialogBox extends HBox {
     }
 
     /**
+     * Returns a left-aligned bubble showing the animated typing indicator,
+     * displayed while Hu9o's real reply is being prepared and then discarded.
+     *
+     * @param typingImage the animated image to show while "typing".
+     * @return the dialog box.
+     */
+    public static DialogBox getTypingDialog(Image typingImage) {
+        DialogBox box = new DialogBox("", typingImage);
+        box.flip();
+        return box;
+    }
+
+    /**
      * Returns a left-aligned bubble for an error reply, styled to stand out.
      *
      * @param text  the error message.

@@ -1,5 +1,6 @@
 package hu9o;
 
+import java.util.List;
 import java.util.Scanner;
 
 import hu9o.contact.ContactParser;
@@ -155,6 +156,30 @@ public class Hu9o {
      */
     public boolean isExitCommand(String input) {
         return input.trim().equalsIgnoreCase("bye");
+    }
+
+    /**
+     * Returns whether the given input is the command that clears the GUI's chat
+     * display. Unlike every other command, this is handled entirely in the GUI
+     * layer: it never reaches {@link #dispatchCommand(String)}, so it cannot
+     * touch the task list, the contact network, or the save files.
+     *
+     * @param input the text the user typed.
+     * @return {@code true} if the input is {@code clear}, ignoring case and spacing.
+     */
+    public boolean isClearCommand(String input) {
+        return input.trim().equalsIgnoreCase("clear");
+    }
+
+    /**
+     * Returns a one-line summary of every person in the contact network, for
+     * the GUI's Contacts page. Read-only: it neither writes to the UI's
+     * captured output buffer nor changes {@link #isLastResponseError()}.
+     *
+     * @return one summary string per person, in network order.
+     */
+    public List<String> getContactSummaries() {
+        return people.stream().map(Person::toString).toList();
     }
 
     /**

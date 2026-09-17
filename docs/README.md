@@ -57,8 +57,7 @@ Hu9o is a desktop app for managing your **tasks** and **contacts** together, opt
    - `bye` — saves your data and exits.
 6. Refer to [Task features](#task-features) and [Contact features](#contact-features) below for the full command list.
 
-> [!TIP]
-> Hu9o also runs as a plain command-line program with no window — launch `hu9o.Hu9o`'s `main` method instead of the jar's default GUI entry point (`hu9o.gui.Launcher`) if you'd rather use it that way.
+> **Tip:** Hu9o also runs as a plain command-line program with no window — launch `hu9o.Hu9o`'s `main` method instead of the jar's default GUI entry point (`hu9o.gui.Launcher`) if you'd rather use it that way.
 
 ## Layout
 
@@ -68,7 +67,7 @@ Hu9o is a desktop app for managing your **tasks** and **contacts** together, opt
 
 ## Command format
 
-> [!NOTE]
+> **Note:**
 >
 > - Words in `UPPER_CASE` are parameters you supply, e.g. in `todo DESCRIPTION`, `DESCRIPTION` is a parameter you'd replace with `read book`, as in `todo read book`.
 > - Items in `[square brackets]` are optional, e.g. `person NAME /phone PHONE /email EMAIL [/dob DOB]` can be used as `person John Tan /phone 91234567 /email john@example.com /dob 1/1/2000` or as `person John Tan /phone 91234567 /email john@example.com`.
@@ -249,8 +248,7 @@ Redirects every task command — `todo`, `deadline`, `event`, `list`, `find`, `m
 
 Format: `select NAME`
 
-> [!IMPORTANT]
-> While someone is selected, those commands never touch your own task list — only the selected person's. `deselect` first to get back to your own list.
+> **Important:** While someone is selected, those commands never touch your own task list — only the selected person's. `deselect` first to get back to your own list.
 
 ### Deselecting: `deselect`
 
@@ -297,8 +295,7 @@ You don't need to create these yourself — Hu9o creates the folder and each fil
 
 Advanced users may edit the save files directly while Hu9o is **not** running. Each line is a pipe (`|`)-delimited record; for example, a task line reads `T| |read book|` (type, done-flag, description).
 
-> [!WARNING]
-> If an edit leaves a file in an invalid format (e.g. a missing column), Hu9o may skip that line, load it incorrectly, or — for a malformed `contactLinks.txt` entry — silently drop that link. Back up the `data/` folder before hand-editing it.
+> **Warning:** If an edit leaves a file in an invalid format (e.g. a missing column), Hu9o may skip that line, load it incorrectly, or — for a malformed `contactLinks.txt` entry — silently drop that link. Back up the `data/` folder before hand-editing it.
 
 ## FAQ
 

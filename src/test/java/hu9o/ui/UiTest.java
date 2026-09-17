@@ -13,10 +13,10 @@ import hu9o.task.TaskList;
 import hu9o.task.ToDoTask;
 
 /**
- * Tests the two {@link Ui} methods that build their output from arguments
- * ({@code showTaskAdded} and {@code showTaskList}) rather than printing a fixed
- * literal. Each test redirects {@code System.out} into a buffer so the printed
- * text can be asserted on.
+ * Tests the {@link Ui} methods that build their output from arguments
+ * ({@code showTaskAdded}, {@code showTaskList}, and {@code showProgress})
+ * rather than printing a fixed literal. Each test redirects {@code System.out}
+ * into a buffer so the printed text can be asserted on.
  */
 public class UiTest {
     private final PrintStream realOut = System.out;
@@ -90,5 +90,52 @@ public class UiTest {
         new Ui().showMatchingTasks(new TaskList());
 
         assertEquals("No matching tasks found.\n", captured());
+    }
+
+    @Test
+    public void showProgress_emptyList_printsNothingToTrackNotice() {
+        new Ui().showProgress(new TaskList());
+
+        assertEquals("No tasks yet -- nothing to track progress on!\n", captured());
+    }
+
+    @Test
+    public void showProgress_noneMarked_printsZeroPercentBar() {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new ToDoTask("read book"));
+        tasks.addTask(new ToDoTask("buy milk"));
+
+        new Ui().showProgress(tasks);
+
+        assertEquals("[░░░░░░░░░░"
+                + "░░░░░░░░░░] "
+                + "0/2 tasks completed (0%)\n", captured());
+    }
+
+    @Test
+    public void showProgress_halfMarked_printsHalfFilledBar() {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new ToDoTask("read book"));
+        tasks.addTask(new ToDoTask("buy milk"));
+        tasks.get(0).mark();
+
+        new Ui().showProgress(tasks);
+
+        assertEquals("[██████████"
+                + "░░░░░░░░░░] "
+                + "1/2 tasks completed (50%)\n", captured());
+    }
+
+    @Test
+    public void showProgress_allMarked_printsFullBarAtOneHundredPercent() {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new ToDoTask("read book"));
+        tasks.get(0).mark();
+
+        new Ui().showProgress(tasks);
+
+        assertEquals("[██████████"
+                + "██████████] "
+                + "1/1 tasks completed (100%)\n", captured());
     }
 }

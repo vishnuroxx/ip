@@ -1,7 +1,10 @@
 package hu9o;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -134,5 +137,53 @@ public class Hu9oTest {
         String response = hu9o.getResponse("people");
 
         assertTrue(response.contains("Hu9oTest Person Eta"));
+    }
+
+    @Test
+    public void isClearCommand_clearInAnyCasingOrSpacing_returnsTrue() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        assertTrue(hu9o.isClearCommand("clear"));
+        assertTrue(hu9o.isClearCommand("  ClEaR  "));
+    }
+
+    @Test
+    public void isClearCommand_otherCommands_returnsFalse() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        assertFalse(hu9o.isClearCommand("clearperson"));
+        assertFalse(hu9o.isClearCommand("list"));
+    }
+
+    @Test
+    public void getContactSummaries_noPeopleAdded_returnsEmptyList() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        assertTrue(hu9o.getContactSummaries().isEmpty());
+    }
+
+    @Test
+    public void getContactSummaries_afterAddingPeople_reflectsEachPersonInOrder() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("person Hu9oTest Person Theta /phone 91234567 /email theta@example.com");
+        hu9o.getResponse("person Hu9oTest Person Iota /phone 91234567 /email iota@example.com");
+
+        List<String> summaries = hu9o.getContactSummaries();
+
+        assertEquals(2, summaries.size());
+        assertTrue(summaries.get(0).contains("Hu9oTest Person Theta"));
+        assertTrue(summaries.get(1).contains("Hu9oTest Person Iota"));
+    }
+
+    @Test
+    public void getContactSummaries_doesNotAffectErrorOrOutputState() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("mark 999");
+
+        hu9o.getContactSummaries();
+
+        // The error flag set by "mark 999" should survive the read-only summaries
+        // call untouched, since isLastResponseError() consumes it on read.
+        assertTrue(hu9o.isLastResponseError());
     }
 }

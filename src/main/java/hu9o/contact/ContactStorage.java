@@ -65,7 +65,10 @@ public class ContactStorage {
     /** Loads {@code contactData.txt} into {@code people}, skipping any record that does not have 5 fields. */
     private void loadPeople(PersonNetwork people) {
         if (Files.notExists(CONTACT_DATA_PATH)) {
-            return; // no contact data yet (e.g. first run) -- start with an empty network
+            // No contact data yet (e.g. first run, or the data folder went missing) --
+            // create an empty file straight away and start with an empty network.
+            writeQuietly(CONTACT_DATA_PATH, "");
+            return;
         }
         try (Stream<String> lines = Files.lines(CONTACT_DATA_PATH)) {
             // people::add (not addPerson): this data was already validated when it
@@ -98,6 +101,7 @@ public class ContactStorage {
     /** Loads {@code contactLinks.txt}, skipping any pair that no longer names two real people. */
     private void loadLinks(PersonNetwork people) {
         if (Files.notExists(CONTACT_LINKS_PATH)) {
+            writeQuietly(CONTACT_LINKS_PATH, "");
             return;
         }
         try (Stream<String> lines = Files.lines(CONTACT_LINKS_PATH)) {

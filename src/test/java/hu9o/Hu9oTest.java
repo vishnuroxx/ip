@@ -62,4 +62,77 @@ public class Hu9oTest {
         assertFalse(hu9o.isExitCommand("byebye"));
         assertFalse(hu9o.isExitCommand("list"));
     }
+
+    @Test
+    public void getResponse_addPerson_returnsConfirmationText() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        String response = hu9o.getResponse("person Hu9oTest Person Alpha /phone 91234567 /email alpha@example.com");
+
+        assertTrue(response.contains("Got it. I've added this person:"));
+        assertTrue(response.contains("Hu9oTest Person Alpha"));
+        assertFalse(hu9o.isLastResponseError());
+    }
+
+    @Test
+    public void getResponse_selectThenTodo_addsTaskToPersonsListOnly() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("person Hu9oTest Person Beta /phone 91234567 /email beta@example.com");
+        hu9o.getResponse("select Hu9oTest Person Beta");
+
+        String addResponse = hu9o.getResponse("todo Hu9oTest marker task beta");
+        String personListResponse = hu9o.getResponse("list");
+        hu9o.getResponse("deselect");
+        String globalListResponse = hu9o.getResponse("list");
+
+        assertTrue(addResponse.contains("Got it. I've added this task:"));
+        assertTrue(personListResponse.contains("Hu9oTest marker task beta"));
+        assertFalse(globalListResponse.contains("Hu9oTest marker task beta"));
+    }
+
+    @Test
+    public void getResponse_selectUnknownPerson_flagsErrorOnNextQuery() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        String response = hu9o.getResponse("select Hu9oTest Nonexistent Person Gamma");
+
+        assertTrue(response.contains("No person with that name"));
+        assertTrue(hu9o.isLastResponseError());
+    }
+
+    @Test
+    public void getResponse_linkTwoPeopleThenConnections_listsBothNames() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("person Hu9oTest Person Delta /phone 91234567 /email delta@example.com");
+        hu9o.getResponse("person Hu9oTest Person Epsilon /phone 91234567 /email epsilon@example.com");
+        hu9o.getResponse("link Hu9oTest Person Delta /with Hu9oTest Person Epsilon");
+
+        String response = hu9o.getResponse("connections Hu9oTest Person Delta");
+
+        assertTrue(response.contains("Hu9oTest Person Epsilon"));
+        assertFalse(hu9o.isLastResponseError());
+    }
+
+    @Test
+    public void getResponse_deletePersonWhoIsSelected_autoDeselects() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("person Hu9oTest Person Zeta /phone 91234567 /email zeta@example.com");
+        hu9o.getResponse("select Hu9oTest Person Zeta");
+
+        hu9o.getResponse("deleteperson 1");
+        String response = hu9o.getResponse("deselect");
+
+        assertTrue(response.contains("No one was selected"));
+    }
+
+    @Test
+    public void getResponse_contactVerbWhilePersonSelected_stillRoutesToContactParser() {
+        Hu9o hu9o = Hu9o.createForGui();
+        hu9o.getResponse("person Hu9oTest Person Eta /phone 91234567 /email eta@example.com");
+        hu9o.getResponse("select Hu9oTest Person Eta");
+
+        String response = hu9o.getResponse("people");
+
+        assertTrue(response.contains("Hu9oTest Person Eta"));
+    }
 }

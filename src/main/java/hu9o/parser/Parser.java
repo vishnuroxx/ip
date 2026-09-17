@@ -42,7 +42,7 @@ public class Parser {
 
     /** Every command name Hu9o understands. */
     private enum CommandType {
-        TODO, DEADLINE, EVENT, LIST, FIND, MARK, UNMARK, DELETE, BYE
+        TODO, DEADLINE, EVENT, LIST, FIND, MARK, UNMARK, DELETE, PROGRESS, BYE
     }
 
     private final TaskList tasks;
@@ -116,6 +116,7 @@ public class Parser {
                 case DEADLINE -> handleDeadline(command);
                 case EVENT -> handleEvent(command);
                 case DELETE -> handleDelete(parts);
+                case PROGRESS -> handleProgress();
                 default -> throw new InvalidCommandException();
             }
         } catch (Hu9oException exception) {
@@ -207,6 +208,11 @@ public class Parser {
      */
     private void handleDelete(String[] parts) throws Hu9oException {
         ui.showTaskDeleted(tasks.deleteTask(parseIndex(parts)));
+    }
+
+    /** Shows a progress bar of marked-done tasks out of the total, for a {@code progress} command. */
+    private void handleProgress() {
+        ui.showProgress(tasks);
     }
 
     /** Adds a task to the list and asks the UI to confirm it. */

@@ -1204,4 +1204,30 @@ _________________________________
 
 Exit code: `0`
 
-All 14 test case(s) passed.
+## 15. auto-create-missing-data-files - PASS
+
+Aim: Verify that Storage and ContactStorage create an empty save file (and the data/ folder) as soon as loading finds one missing, rather than only after the first save. The program is given no input at all, so it crashes on EOF right after loading and before it can ever reach a save -- its own output is discarded, and only the resulting data/ folder contents are checked.
+
+### Command
+
+```text
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && rm -rf build/ui-tests/auto-create-missing-data-files && mkdir -p build/ui-tests/auto-create-missing-data-files && ((cd build/ui-tests/auto-create-missing-data-files && java -cp ../../classes hu9o.Hu9o > /dev/null 2>&1) ; true) && find build/ui-tests/auto-create-missing-data-files/data -type f | sort
+```
+
+### Input sent to stdin
+
+```text
+
+```
+
+### Program output
+
+```text
+build/ui-tests/auto-create-missing-data-files/data/contactData.txt
+build/ui-tests/auto-create-missing-data-files/data/contactLinks.txt
+build/ui-tests/auto-create-missing-data-files/data/taskData.txt
+```
+
+Exit code: `0`
+
+All 15 test case(s) passed.

@@ -47,12 +47,32 @@ public class Storage {
      */
     public void loadTasks(TaskList tasks) {
         if (Files.notExists(TASK_DATA_PATH)) {
-            return; // no save file yet (e.g. first run) -- start with an empty list
+            // No save file yet (e.g. first run, or the data folder went missing) --
+            // create an empty one straight away so it exists on disk even before
+            // the next save, then start with an empty list.
+            createEmptyFile(TASK_DATA_PATH);
+            return;
         }
         try (Stream<String> lines = Files.lines(TASK_DATA_PATH)) {
             lines.map(parser::parseTask)
                     .filter(Objects::nonNull) // drop lines whose type code was unknown
                     .forEach(tasks::addTask);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates an empty file, and its parent directory if needed, so a path
+     * that could not be found exists on disk from that point on. Failures
+     * are logged, not thrown, since a missing save file is not fatal.
+     *
+     * @param path the file to create.
+     */
+    private void createEmptyFile(Path path) {
+        try {
+            Files.createDirectories(path.getParent());
+            Files.createFile(path);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

@@ -347,5 +347,5 @@ A: No — person names must be unique, ignoring case.
 
 ## AI declaration
 
-This project used **Claude Sonnet 5** (via Claude Code) as a general coding assistant — implementing several optional feature increments, adding tests, and drafting the User Guide.
+This project used extensively **Claude Sonnet 5** (via Claude Code) as a general coding assistant — implementing several IP feature increments, adding tests, and drafting the User Guide.
 s

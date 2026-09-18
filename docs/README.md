@@ -343,3 +343,9 @@ A: No — person names must be unique, ignoring case.
 | Greet | `hi` / `hello` / `hey` / `hiya` / `yo` | `hi` |
 | Clear chat (GUI) | `clear` | `clear` |
 | Exit | `bye` | `bye` |
+
+
+## AI declaration
+
+This project used **Claude Sonnet 5** (via Claude Code) as a general coding assistant — implementing several optional feature increments, adding tests, and drafting the User Guide.
+s

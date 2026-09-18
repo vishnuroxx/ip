@@ -58,3 +58,7 @@ Prerequisites: JDK 25 (the Azul Zulu "FX" build, which bundles JavaFX), update I
 ```
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+
+## AI declaration
+
+This project used **Claude Sonnet 5** (via Claude Code) as a general coding assistant — implementing several optional feature increments, adding tests, and drafting the User Guide.

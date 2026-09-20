@@ -48,7 +48,7 @@ Hu9o is a desktop app for managing your **tasks** and **contacts** together, opt
    ```
    java -jar hu9o.jar
    ```
-   A chat window should appear after a moment. Hu9o keeps a fixed-size window, so don't expect to resize it.
+   A chat window should appear after a moment, with the cursor already in the input box so you can start typing. You can resize or maximise the window (down to a minimum size).
 5. Type a command into the box at the bottom and press Enter (or click **Send**). Some examples to try:
    - `list` — lists all your tasks.
    - `todo read book` — adds a todo named `read book`.
@@ -56,6 +56,8 @@ Hu9o is a desktop app for managing your **tasks** and **contacts** together, opt
    - `progress` — shows how much of your list is done.
    - `bye` — saves your data and exits.
 6. Refer to [Task features](#task-features) and [Contact features](#contact-features) below for the full command list.
+
+> **Note:** The jar bundles JavaFX for Windows, Linux and Apple Silicon Macs. On an Intel Mac, use a Java 25 build that already includes JavaFX (for example Azul Zulu's "FX" build), which Hu9o picks up automatically.
 
 > **Tip:** Hu9o also runs as a plain command-line program with no window — launch `hu9o.Hu9o`'s `main` method instead of the jar's default GUI entry point (`hu9o.gui.Launcher`) if you'd rather use it that way.
 
@@ -88,7 +90,7 @@ Example: `todo read book`
 ```
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 ```
 
 ### Adding a deadline: `deadline`
@@ -97,13 +99,15 @@ Adds a task that needs to be done by a specific date and time.
 
 Format: `deadline DESCRIPTION /by DATE`
 
-`DATE` must be written as `d/M/yy h[mm] a` — for example `12/8/26 3 PM` (3:00 PM) or `12/8/26 330 PM` (3:30 PM). AM/PM is not case-sensitive.
+`DATE` must be written as `d/M/yy h[mm] a` — the day, month and two-digit year, then the hour with the minutes joined on directly if there are any. For example `12/8/26 3 PM` (3:00 PM) or `12/8/26 330 PM` (3:30 PM). AM/PM is not case-sensitive.
+
+The date must exist: `31/2/26` is rejected rather than adjusted to another day. Dates are shown back to you with the year, e.g. `12 Aug 2026, 3 PM`.
 
 Example: `deadline submit assignment /by 12/8/26 3 PM`
 
 ```
 Got it. I've added this task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 Now you have 2 tasks in the list.
 ```
 
@@ -113,13 +117,13 @@ Adds a task that spans a start and end date/time.
 
 Format: `event DESCRIPTION /from START /to END`
 
-`START` and `END` use the same date format as `deadline`.
+`START` and `END` use the same date format as `deadline`, and `END` must not be earlier than `START`.
 
 Example: `event project meeting /from 12/8/26 2 PM /to 12/8/26 4 PM`
 
 ```
 Got it. I've added this task:
-	[E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+	[E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 Now you have 3 tasks in the list.
 ```
 
@@ -131,8 +135,8 @@ Format: `list`
 
 ```
 1. [T][ ] read book
-2. [D][ ] submit assignment (by: 12 Aug, 3 PM)
-3. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
+3. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 ```
 
 ### Finding tasks: `find`
@@ -156,7 +160,7 @@ Example: `mark 2`
 
 ```
 Nice! I've marked this task as done:
-	[D][X] submit assignment (by: 12 Aug, 3 PM)
+	[D][X] submit assignment (by: 12 Aug 2026, 3 PM)
 ```
 
 ### Unmarking a task: `unmark`
@@ -175,7 +179,7 @@ Example: `delete 2`
 
 ```
 Got it. Deleted the following task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 ```
 
 ### Viewing your progress: `progress`
@@ -211,7 +215,7 @@ Example: `person John Tan /phone 91234567 /email john@example.com /dob 1/1/2000 
 ```
 Got it. I've added this person:
 	John Tan (Phone: 91234567, Email: john@example.com, DOB: 1/1/2000, Notes: Close friend from JC)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 ```
 
 ### Listing all people: `people`
@@ -274,11 +278,11 @@ Wipes every message currently shown in the chat area and shows the welcome messa
 
 Format: `bye`
 
-Saves your tasks and contacts, then closes Hu9o. **This is the only time Hu9o saves your data** — see [Saving the data](#saving-the-data).
+Saves your tasks and contacts, then closes Hu9o. See [Saving the data](#saving-the-data).
 
 ## Saving the data
 
-Hu9o saves your tasks and contacts to disk automatically **only when you exit with `bye`** — not after every individual command. If you close the window some other way (e.g. its own close button) instead of typing `bye`, anything you did that session is lost. Always exit with `bye` to keep your changes.
+Hu9o saves your tasks and contacts to disk when you exit with `bye`, and also when you close the window with its own close button — not after every individual command. If Hu9o is force-quit or crashes, or you stop the text-only console version with Ctrl+C, that session's changes are lost, so prefer exiting with `bye`.
 
 Data lives under a `data/` folder inside wherever you launched Hu9o from:
 
@@ -314,10 +318,9 @@ A: No — person names must be unique, ignoring case.
 
 ## Known issues
 
-1. **Unsaved changes on window close.** Hu9o only saves when you exit via `bye` (see [Saving the data](#saving-the-data)). Closing the window any other way — e.g. its own close button — discards everything from that session.
+1. **Nothing is saved until you exit.** Hu9o saves on `bye` or when the window is closed (see [Saving the data](#saving-the-data)), not after each command, so a force-quit or crash loses that session's changes.
 2. **The Contacts page doesn't live-update.** It's a snapshot taken the moment you open it. If you run `person`, `deleteperson`, `link`, etc. while it's open, close and reopen the page to see the change.
 3. **Indices shift after a delete.** Deleting a task or person renumbers everyone listed after it. Re-run `list` or `people` before reusing an `INDEX` you noted earlier in the same session.
-4. **The window has a fixed size** and cannot be resized.
 
 ## Command summary
 

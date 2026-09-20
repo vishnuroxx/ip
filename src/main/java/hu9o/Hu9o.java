@@ -122,8 +122,7 @@ public class Hu9o {
      */
     public String getResponse(String input) {
         if (isExitCommand(input)) {
-            saveAll();
-            ui.readCaptured();
+            saveData();
             return "Bye. Hope to see you again soon! (wags tail)";
         }
         if (isGreeting(input)) {
@@ -179,6 +178,18 @@ public class Hu9o {
     private void saveAll() {
         storage.dumpTasks(tasks);
         contactStorage.dumpAll(people);
+    }
+
+    /**
+     * Saves everything to disk for the GUI, which calls this when the user
+     * types {@code bye} and also when the window is closed some other way, so
+     * closing the window never loses work. The "saving" messages are discarded
+     * because the GUI shows its own farewell. Only valid on a Hu9o made by
+     * {@link #createForGui()}, whose UI captures output.
+     */
+    public void saveData() {
+        saveAll();
+        ui.readCaptured();
     }
 
     /**

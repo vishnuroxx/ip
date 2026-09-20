@@ -6,6 +6,7 @@ import hu9o.Hu9o;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -30,8 +31,11 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Hu9o");
+            stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/DaHu9o.jpg")));
             stage.setMinHeight(600.0);
             stage.setMinWidth(400.0);
+            // Closing with the window's own X button skips the "bye" command, so save here too.
+            stage.setOnCloseRequest(event -> hu9o.saveData());
             MainWindow controller = fxmlLoader.getController();
             controller.setHu9o(hu9o);
             stage.show();

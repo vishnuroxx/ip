@@ -140,6 +140,37 @@ public class Hu9oTest {
     }
 
     @Test
+    public void getResponse_deadlineWithMinutes_isAccepted() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        String response = hu9o.getResponse("deadline Hu9oTest minute test /by 20/9/26 630 PM");
+
+        assertTrue(response.contains("Hu9oTest minute test (by: 20 Sep 2026, 6:30 PM)"));
+        assertFalse(hu9o.isLastResponseError());
+    }
+
+    @Test
+    public void getResponse_deadlineOnNonexistentDate_isRejectedNotAdjusted() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        String response = hu9o.getResponse("deadline Hu9oTest impossible /by 31/2/26 6 PM");
+
+        assertTrue(response.contains("Invalid Date"));
+        assertFalse(response.contains("28 Feb"));
+        assertTrue(hu9o.isLastResponseError());
+    }
+
+    @Test
+    public void getResponse_eventEndingBeforeItStarts_isRejected() {
+        Hu9o hu9o = Hu9o.createForGui();
+
+        String response = hu9o.getResponse("event Hu9oTest backwards /from 21/9/26 4 PM /to 21/9/26 2 PM");
+
+        assertTrue(response.contains("ends before it starts"));
+        assertTrue(hu9o.isLastResponseError());
+    }
+
+    @Test
     public void isClearCommand_clearInAnyCasingOrSpacing_returnsTrue() {
         Hu9o hu9o = Hu9o.createForGui();
 

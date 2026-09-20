@@ -82,8 +82,8 @@ What can I do for you?
 > _________________________________
 
 1. [T][ ] read book
-2. [D][X] submit assignment (by: 12 Aug, 3 PM)
-3. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [D][X] submit assignment (by: 12 Aug 2026, 3 PM)
+3. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > 
@@ -136,27 +136,27 @@ What can I do for you?
 
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 Now you have 2 tasks in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+	[E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 Now you have 3 tasks in the list.
 _________________________________
 
 > _________________________________
 
 Nice! I've marked this task as done:
-	[D][X] submit assignment (by: 12 Aug, 3 PM)
+	[D][X] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > 
@@ -216,52 +216,52 @@ What can I do for you?
 
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 Now you have 2 tasks in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+	[E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 Now you have 3 tasks in the list.
 _________________________________
 
 > _________________________________
 
 1. [T][ ] read book
-2. [D][ ] submit assignment (by: 12 Aug, 3 PM)
-3. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
+3. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
 
 Nice! I've marked this task as done:
-	[D][X] submit assignment (by: 12 Aug, 3 PM)
+	[D][X] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 Ok, I've marked this task as not done yet:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 Got it. Deleted the following task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 1. [T][ ] read book
-2. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
@@ -401,7 +401,7 @@ What can I do for you?
 
 Here are the matching tasks in your list:
 1. [T][X] read book
-2. [D][X] return book (by: 06 Jun, 3 PM)
+2. [D][X] return book (by: 06 Jun 2026, 3 PM)
 _________________________________
 
 > _________________________________
@@ -468,7 +468,7 @@ What can I do for you?
 
 Got it. I've added this person:
 	Alice Tan (Phone: 91112222, Email: alice@example.com)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 _________________________________
 
 > _________________________________
@@ -575,7 +575,7 @@ What can I do for you?
 
 Got it. I've added this person:
 	Carol Ng (Phone: 95556666, Email: carol@example.com)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 _________________________________
 
 > _________________________________
@@ -587,28 +587,28 @@ _________________________________
 
 Got it. I've added this task:
 	[T][ ] buy milk
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[D][ ] submit report (by: 12 Aug, 3 PM)
+	[D][ ] submit report (by: 12 Aug 2026, 3 PM)
 Now you have 2 tasks in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[E][ ] team meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+	[E][ ] team meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 Now you have 3 tasks in the list.
 _________________________________
 
 > _________________________________
 
 1. [T][ ] buy milk
-2. [D][ ] submit report (by: 12 Aug, 3 PM)
-3. [E][ ] team meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [D][ ] submit report (by: 12 Aug 2026, 3 PM)
+3. [E][ ] team meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
@@ -626,13 +626,13 @@ _________________________________
 > _________________________________
 
 Got it. Deleted the following task:
-	[D][ ] submit report (by: 12 Aug, 3 PM)
+	[D][ ] submit report (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 1. [T][ ] buy milk
-2. [E][ ] team meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [E][ ] team meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
@@ -696,7 +696,7 @@ What can I do for you?
 
 Got it. I've added this person:
 	Dan Ho (Phone: 91230000, Email: dan@example.com)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 _________________________________
 
 > _________________________________
@@ -720,7 +720,7 @@ _________________________________
 
 Got it. I've added this task:
 	[T][ ] call supplier
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
@@ -793,7 +793,7 @@ _________________________________
 > _________________________________
 
 1. [T][X] call Grace
-2. [D][ ] renew passport (by: 20 Dec, 5 PM)
+2. [D][ ] renew passport (by: 20 Dec 2026, 5 PM)
 _________________________________
 
 > _________________________________
@@ -866,7 +866,7 @@ _________________________________
 
 Got it. I've added this person:
 	Henry Goh (Phone: 91112222, Email: henry@example.com)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 _________________________________
 
 > _________________________________
@@ -955,59 +955,59 @@ What can I do for you?
 
 Got it. I've added this person:
 	Ivy Chua (Phone: 91112222, Email: ivy@example.com)
-Now you have 1 people in the network.
+Now you have 1 person in the network.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 Now you have 2 tasks in the list.
 _________________________________
 
 > _________________________________
 
 Got it. I've added this task:
-	[E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+	[E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 Now you have 3 tasks in the list.
 _________________________________
 
 > _________________________________
 
 1. [T][ ] read book
-2. [D][ ] submit assignment (by: 12 Aug, 3 PM)
-3. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
+3. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
 
 Nice! I've marked this task as done:
-	[D][X] submit assignment (by: 12 Aug, 3 PM)
+	[D][X] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 Ok, I've marked this task as not done yet:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 Got it. Deleted the following task:
-	[D][ ] submit assignment (by: 12 Aug, 3 PM)
+	[D][ ] submit assignment (by: 12 Aug 2026, 3 PM)
 _________________________________
 
 > _________________________________
 
 1. [T][ ] read book
-2. [E][ ] project meeting (from: 12 Aug, 2 PM to: 12 Aug, 4 PM)
+2. [E][ ] project meeting (from: 12 Aug 2026, 2 PM to: 12 Aug 2026, 4 PM)
 _________________________________
 
 > _________________________________
@@ -1073,7 +1073,7 @@ _________________________________
 
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > _________________________________
@@ -1164,7 +1164,7 @@ _________________________________
 
 Got it. I've added this task:
 	[T][ ] read book
-Now you have 1 tasks in the list.
+Now you have 1 task in the list.
 _________________________________
 
 > 
@@ -1199,4 +1199,84 @@ Expected output:
 build/ui-tests/auto-create-missing-data-files/data/contactData.txt
 build/ui-tests/auto-create-missing-data-files/data/contactLinks.txt
 build/ui-tests/auto-create-missing-data-files/data/taskData.txt
+```
+
+## Test case: date-validation
+
+Aim:
+```text
+Verify that a date with minutes (h[mm] a, e.g. 630 PM) and a lower-case pm are accepted; that a nonexistent date (31 Feb) is rejected instead of being moved to 28 Feb; that an event ending before it starts is rejected; and that the saved file keeps the minutes in the storage format.
+```
+
+Command:
+```shell
+javac -d build/classes $(find src/main/java -name "*.java" -not -path "*/gui/*") && rm -rf build/ui-tests/date-validation && mkdir -p build/ui-tests/date-validation/data && : > build/ui-tests/date-validation/data/taskData.txt && ((cd build/ui-tests/date-validation && java -cp ../../classes hu9o.Hu9o) && cat build/ui-tests/date-validation/data/taskData.txt)
+```
+
+Input:
+```text
+deadline minute test /by 20/9/26 630 PM
+deadline lower case /by 20/9/26 330 pm
+deadline impossible /by 31/2/26 6 PM
+event backwards /from 21/9/26 4 PM /to 21/9/26 2 PM
+list
+bye
+```
+
+Expected output:
+```text
+_________________________________
+ _   _           ___ 
+| | | | | | | | / _ \   ___  
+| |_| | | | | || (_) | / _ \ 
+|  _  | | |_| | \__,| | (_) |
+|_| |_|  \___/   /_/   \___/ 
+_________________________________
+
+Give me a second....Loading tasks...
+Successful! Use list to view the tasks.
+Woof! I'm Hu9o!
+What can I do for you?
+
+> _________________________________
+
+Got it. I've added this task:
+	[D][ ] minute test (by: 20 Sep 2026, 6:30 PM)
+Now you have 1 task in the list.
+_________________________________
+
+> _________________________________
+
+Got it. I've added this task:
+	[D][ ] lower case (by: 20 Sep 2026, 3:30 PM)
+Now you have 2 tasks in the list.
+_________________________________
+
+> _________________________________
+
+Invalid Date...Use day/month/year 12 hr time
+	i.e 12/8/26 330 pm
+_________________________________
+
+> _________________________________
+
+That event ends before it starts! Make sure /to is not earlier than /from.
+_________________________________
+
+> _________________________________
+
+1. [D][ ] minute test (by: 20 Sep 2026, 6:30 PM)
+2. [D][ ] lower case (by: 20 Sep 2026, 3:30 PM)
+_________________________________
+
+> 
+ Saving data...
+ Successfully saved data
+_________________________________
+
+Bye. Hope to see you again soon! (wags tail)
+_________________________________
+
+D| |minute test|20/09/26 630 PM|
+D| |lower case|20/09/26 330 PM|
 ```

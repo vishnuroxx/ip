@@ -28,7 +28,7 @@ public class MainWindow extends AnchorPane {
     /** How long the farewell stays visible before the window closes. */
     private static final Duration EXIT_DELAY = Duration.seconds(1.5);
     /** How long the typing indicator stays on screen before the real reply replaces it. */
-    private static final Duration TYPING_DELAY = Duration.millis(600);
+    private static final Duration TYPING_DELAY = Duration.millis(300);
 
     @FXML
     private ScrollPane scrollPane;
@@ -52,10 +52,20 @@ public class MainWindow extends AnchorPane {
     private final Image typingImage =
             new Image(this.getClass().getResourceAsStream("/images/DogTyping.gif"));
 
-    /** Pins the scroll pane to the newest message. Called by the FXML loader. */
+    /**
+     * Scrolls to the newest message whenever the chat grows, and puts the cursor in the input box.
+     * Called by the FXML loader.
+     *
+     * <p>A listener is used rather than binding {@code vvalue} to the chat height: a bound
+     * property ignores the mouse wheel and touchpad, so scrolling would stay stuck at the
+     * bottom until the scrollbar was clicked.
+     */
     @FXML
     public void initialize() {
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.heightProperty().addListener((observable, oldHeight, newHeight) ->
+                scrollPane.setVvalue(1.0));
+        // Deferred so it runs after Main has shown the window and the scene's initial focus is settled.
+        Platform.runLater(() -> userInput.requestFocus());
     }
 
     /**

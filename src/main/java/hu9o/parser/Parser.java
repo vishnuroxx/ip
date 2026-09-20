@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import hu9o.errors.EventEndsBeforeStartException;
 import hu9o.errors.Hu9oException;
 import hu9o.errors.InvalidCommandException;
 import hu9o.errors.InvalidDeadlineFormatException;
@@ -193,11 +194,16 @@ public class Parser {
      * Adds the event task described by an {@code event} command.
      *
      * @param command the full command text, matched against {@link #EVENT_PATTERN}.
-     * @throws Hu9oException if the command is missing its description, {@code /from}, or {@code /to}.
+     * @throws Hu9oException if the command is missing its description, {@code /from}, or {@code /to},
+     *                       or if the event would end before it starts.
      */
     private void handleEvent(String command) throws Hu9oException {
         Matcher matcher = requireMatch(EVENT_PATTERN, command, InvalidEventFormatException::new);
-        addAndConfirm(new EventTask(matcher.group(1), matcher.group(2), matcher.group(3)));
+        EventTask event = new EventTask(matcher.group(1), matcher.group(2), matcher.group(3));
+        if (event.endsBeforeStart()) {
+            throw new EventEndsBeforeStartException();
+        }
+        addAndConfirm(event);
     }
 
     /**

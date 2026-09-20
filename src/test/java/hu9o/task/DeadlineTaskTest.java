@@ -33,7 +33,7 @@ public class DeadlineTaskTest {
     public void specificationSuffix_onTheHourTime_rendersByClauseInDisplayFormat() {
         DeadlineTask deadline = new DeadlineTask("submit assignment", "12/08/26 3 PM");
 
-        assertEquals(" (by: 12 Aug, 3 PM)", deadline.specificationSuffix());
+        assertEquals(" (by: 12 Aug 2026, 3 PM)", deadline.specificationSuffix());
     }
 
     @Test

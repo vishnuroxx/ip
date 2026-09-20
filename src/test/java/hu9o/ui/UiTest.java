@@ -50,6 +50,17 @@ public class UiTest {
     }
 
     @Test
+    public void showTaskAdded_firstTask_usesSingularTask() {
+        new Ui().showTaskAdded(new ToDoTask("read book"), 1);
+
+        assertEquals(
+                "Got it. I've added this task:\n"
+                        + "\t[T][ ] read book\n"
+                        + "Now you have 1 task in the list.\n",
+                captured());
+    }
+
+    @Test
     public void showTaskList_multipleTasks_printsOneNumberedLineEach() {
         TaskList tasks = new TaskList();
         tasks.addTask(new ToDoTask("read book"));

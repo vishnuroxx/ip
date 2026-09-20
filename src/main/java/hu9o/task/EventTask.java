@@ -25,6 +25,15 @@ public class EventTask extends Task {
         this.toSpecification = DateTime.parseString(toSpecification);
     }
 
+    /**
+     * Returns whether this event's end time is earlier than its start time.
+     *
+     * @return {@code true} if the event would finish before it begins.
+     */
+    public boolean endsBeforeStart() {
+        return toSpecification.isBefore(fromSpecification);
+    }
+
     @Override
     public String compressionString() {
         return super.compressionString() + DateTime.formatForStorage(fromSpecification) + "|"

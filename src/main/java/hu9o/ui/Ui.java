@@ -210,7 +210,7 @@ public class Ui {
      */
     public void showTaskAdded(Task task, int taskCount) {
         out.println("Got it. I've added this task:\n\t" + task);
-        out.println("Now you have " + taskCount + " tasks in the list.");
+        out.println("Now you have " + taskCount + (taskCount == 1 ? " task" : " tasks") + " in the list.");
     }
 
     /**
@@ -248,7 +248,7 @@ public class Ui {
      */
     public void showPersonAdded(Person person, int personCount) {
         out.println("Got it. I've added this person:\n\t" + person);
-        out.println("Now you have " + personCount + " people in the network.");
+        out.println("Now you have " + personCount + (personCount == 1 ? " person" : " people") + " in the network.");
     }
 
     /**

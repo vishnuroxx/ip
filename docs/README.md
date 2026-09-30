@@ -117,7 +117,7 @@ Adds a task that spans a start and end date/time.
 
 Format: `event DESCRIPTION /from START /to END`
 
-`START` and `END` use the same date format as `deadline`, and `END` must not be earlier than `START`.
+`START` and `END` use the same date format as `deadline`. `END` must be strictly after `START` — an event needs a start and end that are genuinely different, so avoid giving `/from` and `/to` the exact same date and time.
 
 Example: `event project meeting /from 12/8/26 2 PM /to 12/8/26 4 PM`
 
@@ -321,6 +321,7 @@ A: No — person names must be unique, ignoring case.
 1. **Nothing is saved until you exit.** Hu9o saves on `bye` or when the window is closed (see [Saving the data](#saving-the-data)), not after each command, so a force-quit or crash loses that session's changes.
 2. **The Contacts page doesn't live-update.** It's a snapshot taken the moment you open it. If you run `person`, `deleteperson`, `link`, etc. while it's open, close and reopen the page to see the change.
 3. **Indices shift after a delete.** Deleting a task or person renumbers everyone listed after it. Re-run `list` or `people` before reusing an `INDEX` you noted earlier in the same session.
+4. **Events with identical start and end times may be wrongly accepted.** `END` is meant to be strictly after `START` (see [Adding an event](#adding-an-event-event)), but a same-instant `/from` and `/to` can currently slip through instead of being rejected. Don't rely on this — always give `/from` and `/to` genuinely different date/times.
 
 ## Command summary
 
